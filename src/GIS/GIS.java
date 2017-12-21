@@ -30,6 +30,7 @@ public class GIS extends JFrame implements ActionListener  {
     JLabel x;
     JLabel y;
     JToolBar toolB;
+    JToolBar justatooltoseeifsomethingchanges;
 
     // variables for zooming and paning
     // (need to be available for all classes)
