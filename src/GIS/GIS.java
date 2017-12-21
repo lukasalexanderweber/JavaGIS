@@ -11,6 +11,7 @@ import java.io.File;
 import javax.swing.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.filechooser.FileSystemView;
 
 public class GIS extends JFrame implements ActionListener  {
@@ -30,10 +31,8 @@ public class GIS extends JFrame implements ActionListener  {
     JLabel x;
     JLabel y;
     JToolBar toolB;
-    JToolBar justatooltoseeifsomethingchanges;
 
     // variables for zooming and paning
-    // (need to be available for all classes)
     public double factor = 1;
     public double horizontal = 0;
     public double vertical = 0;
@@ -49,7 +48,7 @@ public class GIS extends JFrame implements ActionListener  {
     double newMouseY;
 
     // drawing
-    String FeatureType = "Pan";
+    String ActualState = "Pan";
     boolean drawPolygonStarted = false;
     boolean drawPolylineStarted = false;
     int numberOfPoints = 0;
@@ -58,7 +57,7 @@ public class GIS extends JFrame implements ActionListener  {
     Path2D Polyline2D;
 
     // --------------------------------------------------
-    // Constructor which implements drawing functionality
+    // Constructor which initiates GIS functionality
     // --------------------------------------------------
     GIS(){
         super("GIS"); //heading
@@ -72,6 +71,7 @@ public class GIS extends JFrame implements ActionListener  {
         // when starting the programm Pan mode is active -> HAND_CURSOR
         p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
        
+        // !!!! get and transform coordinates!!!
         // MouseMotion to get the actual x,y-coordinates of mouse
         p.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -81,7 +81,7 @@ public class GIS extends JFrame implements ActionListener  {
 		// create a 2D Point object from the coordinates
                 Point2D.Double point = new Point2D.Double(mouseX, mouseY); 
 		// get the current Transformation of the DrawingPanel
-                AffineTransform tx = p.getCurrentTransform();			   
+                AffineTransform tx = p.getCurrentTransform();		   
                 try {
                     // backtransform them to display the correct X and Y
                     mouseX = tx.inverseTransform(point, null).getX();	   
@@ -96,12 +96,12 @@ public class GIS extends JFrame implements ActionListener  {
             }
         });
 
-        // MouseListener in the DrawingPanel to draw Point, Line or Polygon
+        // !!! Geometry drawing !!!
+            // MouseAdapter in the DrawingPanel to draw Point, Line or Polygon
         p.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(FeatureType);
-                switch (FeatureType) {
+                switch (ActualState) {
                     
                     // if drawPolyline mode in active
                     case "drawPoint":
@@ -180,29 +180,29 @@ public class GIS extends JFrame implements ActionListener  {
                                     String.valueOf(Math.round(mouseX)));
                         }                        
                         break; 
-
-                    // if Pan mode is active
-                    case "Pan":
-                        System.out.println("pressed");
-                        oldMouseX = e.getX();
-                        System.out.println(oldMouseX);
-                        oldMouseY = e.getY();
-                        // -> will be processed in mouseReleased listener
-                        break;
-
-                    // do nothing if the state is none of those four
+                    
+                    // do nothing if the state is none of those 3
                     default:
                         break;
                 }
-            }           
-
-            // if Pan mode is active -> move to place where mouse is released
+            }     
+        });
+            
+        // !!!! PAN !!!!
+        // MouseInput to pan
+        p.addMouseListener(new MouseInputAdapter() { 
+            public void mousePressed(MouseEvent e) {
+                System.out.println("pressed");
+                oldMouseX = e.getX();
+                oldMouseY = e.getY();
+                // -> will be processed in mouseReleased listener
+            }
+ 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if ("Pan".equals(FeatureType)){
+                if (ActualState.equals("Pan")){
                     System.out.println("released");
                     newMouseX = e.getX();
-                    System.out.println(newMouseX);
                     newMouseY = e.getY();
 
                     // Pan to the position where mouse is released
@@ -213,10 +213,11 @@ public class GIS extends JFrame implements ActionListener  {
                 }
             }
         });
-
+        
+        // !!!! Zoom !!!!
         // MouseWheel to zoom in and out
         p.addMouseWheelListener((MouseWheelEvent e) -> {
-            if ("Pan".equals(FeatureType)) {
+            if ("Pan".equals(ActualState)) {
                 if (e.getWheelRotation() < 0) {
                     System.out.println("mouse wheel Up");
                     // zoom in when wheel up
@@ -237,7 +238,10 @@ public class GIS extends JFrame implements ActionListener  {
     // -------------------
     // End of Constructor 
     // -------------------    
-    
+
+    // -----------------
+    // Layout definition 
+    // -----------------
     public void setLayout(){   
         // Layout declaration
         buttonMinus = new JButton("Zoom Out");
@@ -311,8 +315,13 @@ public class GIS extends JFrame implements ActionListener  {
         setSize(1180,630);
         setVisible(true);
     }
+    // ------------------------
+    // End of Layout definition 
+    // ------------------------
     
-        // Action handling for all buttons
+    //--------------------------------
+    // Action handling for all buttons
+    //--------------------------------
     @Override
     public void actionPerformed(ActionEvent e) {
         // zoom in (coodinated will be multiplied with the factor)
@@ -328,7 +337,11 @@ public class GIS extends JFrame implements ActionListener  {
         //pan button 
         else if (e.getSource() == PanB){
             p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                FeatureType = "Pan";
+            PanB.setBackground(Color.GRAY);
+            createPolygon.setBackground(new JButton().getBackground()); //default color
+            createPolyline.setBackground(new JButton().getBackground()); //default color
+            createPoint.setBackground(new JButton().getBackground()); //default color
+            ActualState = "Pan";
         }
         // zoom out (coodinated will be multiplied with the factor)
         else if(e.getSource() == buttonMinus) {
@@ -358,42 +371,50 @@ public class GIS extends JFrame implements ActionListener  {
             if (Jfcreturn == JFileChooser.APPROVE_OPTION){
                 File[] file = Jfc.getSelectedFiles();   
             }
-
         }
         else if(e.getSource() == createPoint) {
-            if (!FeatureType.equals("drawPoint")){
+            if (!ActualState.equals("drawPoint")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 createPoint.setBackground(Color.GRAY);
-                FeatureType = "drawPoint";
+                createPolyline.setBackground(new JButton().getBackground()); //default color
+                createPolygon.setBackground(new JButton().getBackground()); //default color
+                PanB.setBackground(new JButton().getBackground()); //default color
+                ActualState = "drawPoint";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 createPoint.setBackground(new JButton().getBackground()); //default color
-                FeatureType = "Pan";
+                ActualState = "Pan";
             }
         }
         else if(e.getSource() == createPolyline) {
-            if (!FeatureType.equals("drawPolyline")){
+            if (!ActualState.equals("drawPolyline")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 createPolyline.setBackground(Color.GRAY);
-                FeatureType = "drawPolyline";
+                createPoint.setBackground(new JButton().getBackground()); //default color
+                createPolygon.setBackground(new JButton().getBackground()); //default color
+                PanB.setBackground(new JButton().getBackground()); //default color
+                ActualState = "drawPolyline";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 createPolyline.setBackground(new JButton().getBackground()); //default color
-                FeatureType = "Pan";
+                ActualState = "Pan";
             }
         }
         else if(e.getSource() == createPolygon) {
-            if (!FeatureType.equals("drawPolygon")){
+            if (!ActualState.equals("drawPolygon")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 createPolygon.setBackground(Color.GRAY);
-                FeatureType = "drawPolygon";
+                createPolyline.setBackground(new JButton().getBackground()); //default color
+                createPoint.setBackground(new JButton().getBackground()); //default color
+                PanB.setBackground(new JButton().getBackground()); //default color
+                ActualState = "drawPolygon";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 createPolygon.setBackground(new JButton().getBackground()); //default color
-                FeatureType = "Pan";
+                ActualState = "Pan";
             }
         }
 
