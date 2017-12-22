@@ -33,12 +33,14 @@ public class db_connection extends javax.swing.JFrame {
     public ArrayList<Shapes> shapeList(){
         ArrayList<Shapes>shapeList = new ArrayList<>();
         try{
-            Class.forName("com.microsoft.sql.sqlserver.jdbc.SQLServerDriver");
-            String url = " jdbc:sqlserver://localhost:3306;databaseName=shapes;user=root;password='' ";
-            Connection con = DriverManager.getConnection(url);
-            String query1 = "SELECT * FROM shapes";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query1);
+            String dbname = dbname_textfield.getText();
+            String table = table_textfield.getText();
+            String db_table = dbname + "." + table;
+            
+            Connection dbmsconn = getConnection();
+            Statement sta = dbmsconn.createStatement();
+            String query1 = "select * from "+ db_table;
+            ResultSet rs = sta.executeQuery(query1);
             Shapes shapes;
             while(rs.next()) {
                 shapes = new Shapes(rs.getInt("gid"), rs.getString("name"), rs.getString("geom") );
@@ -415,7 +417,7 @@ public class db_connection extends javax.swing.JFrame {
         }
         
         public void addRecords() {
-        file.format("%s%s%s", "string 1 ", " string 2 ", "string 3 ");
+        file.format("%s%s%s", "gid ", "name ", "geom ");
         }
     
         public void closeFile() {
