@@ -1,5 +1,6 @@
 package GIS;
 
+import GIS.dbConnection.DB_connection;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -20,7 +21,7 @@ public class GIS extends JFrame implements ActionListener  {
     DrawingPanel p;
 
     // Layout
-    JButton buttonPlus, buttonMinus, AddFile, FE,PanB, fileOp;
+    JButton buttonPlus, buttonMinus, AddFile, FE,PanB, fileOp, DB;
     JButton buttonRight;
     JButton buttonLeft;
     JButton buttonTop;
@@ -31,6 +32,7 @@ public class GIS extends JFrame implements ActionListener  {
     JLabel x;
     JLabel y;
     JToolBar toolB;
+    public static DB_connection DBconnect;
 
     // variables for zooming and paning
     public double factor = 1;
@@ -55,7 +57,7 @@ public class GIS extends JFrame implements ActionListener  {
     Ellipse2D Point2D;
     Path2D Polygon2D;
     Path2D Polyline2D;
-
+    
     // --------------------------------------------------
     // Constructor which initiates GIS functionality
     // --------------------------------------------------
@@ -191,6 +193,7 @@ public class GIS extends JFrame implements ActionListener  {
         // !!!! PAN !!!!
         // MouseInput to pan
         p.addMouseListener(new MouseInputAdapter() { 
+            @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println("pressed");
                 oldMouseX = e.getX();
@@ -237,8 +240,21 @@ public class GIS extends JFrame implements ActionListener  {
     }   
     // -------------------
     // End of Constructor 
-    // -------------------    
-
+    // -------------------   
+    
+    // --------------------
+    // DB Connection Window
+    // -------------------- 
+    public void createDBconnectionWindow(){
+        DBconnect = new DB_connection();
+        DBconnect.setTitle("Connect to DB");
+        // in center of screen
+        DBconnect.setLocationRelativeTo(null);
+        // just set unvisible when clicked on exit (DISPOSE)
+        DBconnect.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        DBconnect.setVisible(false);
+    }
+    
     // -----------------
     // Layout definition 
     // -----------------
@@ -256,6 +272,7 @@ public class GIS extends JFrame implements ActionListener  {
         FE = new JButton("FE");
         PanB = new JButton("Pan");
         fileOp = new JButton("Open File");
+        DB = new JButton("ConnectDB");
         x = new JLabel();
         y = new JLabel();
         toolB = new JToolBar();
@@ -273,6 +290,7 @@ public class GIS extends JFrame implements ActionListener  {
         FE.addActionListener(this);
         PanB.addActionListener(this);
         fileOp.addActionListener(this);
+        DB.addActionListener(this);
 
         // define Layout
 
@@ -284,6 +302,7 @@ public class GIS extends JFrame implements ActionListener  {
         toolB.add(FE);
         toolB.add(PanB);
         toolB.add(fileOp);
+        toolB.add(DB);
         toolB.setFloatable(true);
 
         //box in four side
@@ -311,7 +330,7 @@ public class GIS extends JFrame implements ActionListener  {
         add(boxW, BorderLayout.WEST);
         add(p, BorderLayout.CENTER);
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         setSize(1180,630);
         setVisible(true);
     }
@@ -372,6 +391,9 @@ public class GIS extends JFrame implements ActionListener  {
                 File[] file = Jfc.getSelectedFiles();   
             }
         }
+        else if(e.getSource() == DB) {
+            DBconnect.setVisible(true);
+        }
         else if(e.getSource() == createPoint) {
             if (!ActualState.equals("drawPoint")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -430,6 +452,8 @@ public class GIS extends JFrame implements ActionListener  {
     public static void main(String[] args){
         GIS gis = new GIS(); 
         gis.setLayout();
+        gis.createDBconnectionWindow();
+        gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         System.out.println("start");
     }
 }
