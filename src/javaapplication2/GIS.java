@@ -6,6 +6,7 @@
 package javaapplication2;
 
 import static GIS.GIS.DBconnect;
+import GIS.drawing.DrawingPanel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;

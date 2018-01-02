@@ -1,6 +1,7 @@
 package GIS;
 
-import GIS.dbConnection.DB_connection;
+import GIS.drawing.DrawingPanel;
+import GIS.database.DB_connection;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -252,7 +253,7 @@ public class GIS extends JFrame implements ActionListener  {
         DBconnect.setLocationRelativeTo(null);
         // just set unvisible when clicked on exit (DISPOSE)
         DBconnect.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        DBconnect.setVisible(false);
+        DBconnect.setVisible(true);
     }
     
     // -----------------
@@ -392,7 +393,7 @@ public class GIS extends JFrame implements ActionListener  {
             }
         }
         else if(e.getSource() == DB) {
-            DBconnect.setVisible(true);
+            createDBconnectionWindow();
         }
         else if(e.getSource() == createPoint) {
             if (!ActualState.equals("drawPoint")){
@@ -452,7 +453,6 @@ public class GIS extends JFrame implements ActionListener  {
     public static void main(String[] args){
         GIS gis = new GIS(); 
         gis.setLayout();
-        gis.createDBconnectionWindow();
         gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         System.out.println("start");
     }
