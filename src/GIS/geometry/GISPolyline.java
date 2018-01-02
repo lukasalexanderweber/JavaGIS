@@ -1,5 +1,6 @@
 package GIS.geometry;
 
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
 
@@ -64,7 +65,7 @@ public class GISPolyline extends Geometry {
    *  x2 = 4.321
    *  y2 = 8.765
    *  
-   *  writeAsText()
+   *  getGeometryAsText()
    *  
    *  "1.234 5.678,4.321 8.765"
    *  - 2 seperators: 
@@ -72,13 +73,13 @@ public class GISPolyline extends Geometry {
    *  " " for the two coordinates of a point
      * @return String with the Geometry as readable Text
    */
-  public String writeGeometryAsText() {
+  public String getGeometryAsText() {
   /* {author=Name, version=1.0}*/
     String geom = new String();
     // for each point in pointlist call it's writeGeometryAsText() method and 
     // concatenate with a comma to seperate the points 
     for (GISPoint p : pointlist) { 
-        geom += p.writeGeometryAsText() + ",";
+        geom += p.getGeometryAsText() + ",";
     }
     // remove last comma if pointlist is not empty (if empty overflow error would be thrown)
     if (!pointlist.isEmpty()){
@@ -101,7 +102,7 @@ public class GISPolyline extends Geometry {
      * @param geometry a String received from writeGeometryAsText()
      * @return true when method was sucessfull, false for errors
    */
-  public boolean geometryAsTextToLine(String geometry) {
+  public boolean setGeometryFromText(String geometry) {
   /* {author=Name, version=1.0}*/
     try {
         // if there are no Points in pointlist
@@ -124,7 +125,7 @@ public class GISPolyline extends Geometry {
             return true;
         }
         else{
-            System.err.println("Error in geometryAsTextToLine: GISPolyline not empty");
+            System.err.println("Error in setGeometryFromText: GISPolyline not empty");
             return false;
         }
     }
@@ -133,6 +134,26 @@ public class GISPolyline extends Geometry {
         return false;
     }
   }
+  
+  public Path2D getGeometry() {
+    // create new Path2D
+    Path2D Poly;
+    Poly = new Path2D.Double();
+        
+    // move Path2D to location of first point  
+    GISPoint firstPoint = pointlist.get(0);
+    Poly.moveTo(firstPoint.getX(), firstPoint.getY());
+    
+    // subset all points but fist
+    ArrayList<GISPoint> pointlist2 = new ArrayList<>(pointlist.subList(1, NoPoints-1));
+    // and add them to the Path2D
+    for (GISPoint p : pointlist2) {
+        Poly.lineTo(p.getX(), p.getY());
+    }
+    
+    return Poly;
+      
+  }                      
 
   /** 
    *  calculate the length of a Polyline, stored in Attribute length

@@ -5,6 +5,7 @@
  */
 package GIS.drawing;
 
+import GIS.geometry.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -43,18 +44,16 @@ public class DrawingPanel extends JPanel {
     }
     
     // geometry arrays, for example DB import
-    public ArrayList<Ellipse2D> points = new ArrayList<>();
-    public ArrayList<Path2D> polylines = new ArrayList<>();
-    public ArrayList<Path2D> polygons = new ArrayList<>();
+    public ArrayList<GISPoint> points = new ArrayList<>();
+    public ArrayList<GISPolyline> polylines = new ArrayList<>();
+    public ArrayList<GISPolygon> polygons = new ArrayList<>();
     
-    // actual drawed geometry
-    public Ellipse2D drawPoint = null;
-    public Path2D drawPolyline = null;
-    public Path2D drawPolygon = null;
-    
-    // needed for knowing if Polygon is actualy a line or real polygon (P>2)
-    public int NoOfPoints = 0;
-    
+    public void updateContent(Content c) {
+        points = c.pointlist; 
+        polylines = c.polylinelist;         
+        polygons = c.polygonlist; 
+    }
+            
     
     // paintComponent for painting elements
     @Override
@@ -66,65 +65,24 @@ public class DrawingPanel extends JPanel {
            
         AffineTransform tx = getCurrentTransform();
         g2.setTransform(tx);
-        
+                
         //paint imported/allready painted Geometries:
         Color color = new Color(1, 0, 0, 0.75f); //Red 
         g2.setPaint(color);
         
         points.forEach((point) -> {
-            g2.fill(point);
-        });
+            Ellipse2D geom = point.getGeometry();
+            g2.fill(geom);
+        });            
+
         polylines.forEach((polyline) -> {
-            g2.draw(polyline);
+            Path2D geom = polyline.getGeometry();
+            g2.draw(geom);
         });
         polygons.forEach((polygon) -> {
-            g2.fill(polygon);
+            Path2D geom = polygon.getGeometry();
+            g2.fill(geom);
         });
-                
-        //paint actual drawed Geometry:
-        color = new Color(0, 0, 1, 0.75f); //Blue 
-        g2.setPaint(color);
-        
-        // Point
-        if (drawPoint != null){
-            g2.fill(drawPoint);
-        }        
-        // Polyline
-        if (drawPolyline != null){
-            g2.draw(drawPolyline);
-        }
-        // Polygon
-        if (drawPolygon != null){
-            if (NoOfPoints > 2){
-                g2.fill(drawPolygon);
-            }
-            else{
-                g2.draw(drawPolygon);
-            }
-        }
     }
-    
-    public void drawPoint(Ellipse2D point, boolean comp) { 
-         this.drawPoint = point;   
-         if (comp == true){
-             points.add(point);
-             drawPoint = null;
-         }
-     }
-     public void drawPolyline(Path2D polyline, boolean comp) { 
-         this.drawPolyline = polyline;
-         if (comp == true){
-             polylines.add(polyline);
-             drawPolyline = null;
-         }
-     }
-     public void drawPolygon(Path2D polygon, boolean comp, int noPoints) { 
-         this.drawPolygon = polygon;
-         this.NoOfPoints = noPoints;  
-         if (comp == true){
-             polygons.add(polygon);
-             drawPolygon = null;
-             NoOfPoints = 0;
-         }
-     }
 }
+

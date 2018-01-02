@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package workingwithdb;
+package GIS.database;
 
 import java.awt.Color;
 import java.io.File;
@@ -26,12 +26,15 @@ import net.proteanit.sql.DbUtils;
  *
  * @author keneuoe
  */
-public class db_connection extends javax.swing.JFrame {
+public class DB_connection extends javax.swing.JFrame {
 
+    // Database object to store connection information permanently
+    Database db;
+    
     /**
      * Creates new form db_connection
      */
-    public db_connection() {
+    public DB_connection() {
         initComponents();
     }
 
@@ -367,45 +370,44 @@ public class db_connection extends javax.swing.JFrame {
     }
     
     public Connection getConnection () throws SQLException {
-        String host = host_textfield.getText();
-        String port = port_textfield.getText();
-        String dbname = dbname_textfield.getText();
-        String user = user_textfield.getText();
-        String password = password_textfield.getText();
-        String DBMS = (String) DBMSName.getText();
-
-        String connection = "jdbc:"+ DBMS +"://" + host + ":" + port + "/" + dbname + "?autoReconnect=true&useSSL=false";
+        db = new Database();
+        db.dbHost = host_textfield.getText();
+        db.dbPort = port_textfield.getText();
+        db.dbName = dbname_textfield.getText();
+        db.dbUser = user_textfield.getText();
+        db.dbPassword = password_textfield.getText();
+        db.DBMS = (String) DBMSName.getText();
         
-        Connection dbmsconn = DriverManager.getConnection(connection, user, password);
-        return dbmsconn;
+        return db.dbConnect();
     }  
     
     public void saveToDb () throws Exception {
-            Connection con = getConnection();
-            String[] point = new String[8];
-            point[0] = "Point2";
-            point[1] = "Point4";
-            point[2] = "Point5";
-            point[3] = "Point6";
-            point[4] = "Point7";
-            point[5] = "Point8";
-            point[6] = "Point9";
-            point[7] = "Point10";
-            
-            String[] coordinates = new String[8];
-            coordinates[0] = "POINT(2,0)";
-            coordinates[1] = "POINT(2,1)";
-            coordinates[2] = "POINT(2,2)";
-            coordinates[3] = "POINT(2,3)";
-            coordinates[4] = "POINT(2,4)";
-            coordinates[5] = "POINT(2,5)";
-            coordinates[6] = "POINT(2,6)";
-            coordinates[7] = "POINT(2,7)";
-                    
-            for (int i=0; i < coordinates.length; i++){
-                PreparedStatement posted = con.prepareStatement("INSERT INTO shapes(name, geom) VALUES('"+point[i]+"','"+coordinates[i]+"')");
-                posted.executeUpdate();
-            }
+        Connection con = getConnection();
+        
+        String[] point = new String[8];
+        point[0] = "Point2";
+        point[1] = "Point4";
+        point[2] = "Point5";
+        point[3] = "Point6";
+        point[4] = "Point7";
+        point[5] = "Point8";
+        point[6] = "Point9";
+        point[7] = "Point10";
+
+        String[] coordinates = new String[8];
+        coordinates[0] = "POINT(2,0)";
+        coordinates[1] = "POINT(2,1)";
+        coordinates[2] = "POINT(2,2)";
+        coordinates[3] = "POINT(2,3)";
+        coordinates[4] = "POINT(2,4)";
+        coordinates[5] = "POINT(2,5)";
+        coordinates[6] = "POINT(2,6)";
+        coordinates[7] = "POINT(2,7)";
+
+        for (int i=0; i < coordinates.length; i++){
+            PreparedStatement posted = con.prepareStatement("INSERT INTO shapes(name, geom) VALUES('"+point[i]+"','"+coordinates[i]+"')");
+            posted.executeUpdate();
+        }
     }
     
      public class createfile {
@@ -455,43 +457,7 @@ public class db_connection extends javax.swing.JFrame {
         }
 }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(db_connection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(db_connection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(db_connection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(db_connection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new db_connection().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Connect;

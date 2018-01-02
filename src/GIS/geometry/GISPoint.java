@@ -64,11 +64,11 @@ public class GISPoint extends Geometry {
    *  should be something like that:
    *  this.x = 1.234
    *  this.y = 5.678
-   *  writeAsText()
+   *  getGeometryAsText()
    *  "1.234 5.678"
      * @return String with the Geometry as readable Text
    */
-  public String writeGeometryAsText() {
+  public String getGeometryAsText() {
   /* {author=Lukas, version=1.0}*/
        String geom = String.valueOf(this.x) + " " + String.valueOf(this.y);
        return geom;
@@ -77,15 +77,15 @@ public class GISPoint extends Geometry {
   /** 
    *  when receiving a point from a DB/CSV it will be stored in the string:
    *  "1.234 5.678"
-   *  geometryAsTextToPoint("1.234 5.678") will split the string at the " " 
+   *  setGeometryFromText("1.234 5.678") will split the string at the " " 
    *  and return an Array with x and y values, which then can be assigned to 
    *  this.x and this.y.
    *  
    *  return true when processed successful
-     * @param geometry a String received from writeGeometryAsText()
+     * @param geometry a String received from getGeometryAsText()
      * @return true when method was sucessfull, false for errors
    */
-  public boolean geometryAsTextToPoint(String geometry) {
+  public boolean setGeometryFromText(String geometry) {
   /* {author=Lukas, version=1.0}*/
     try {
         String[] coords = geometry.split(" ");
@@ -103,7 +103,7 @@ public class GISPoint extends Geometry {
    *  returns an Ellipse2D object which can be drawn 
      * @return Ellipse2D with X and Y coordinates and a radius of 5
    */
-  public Ellipse2D drawPoint() {
+  public Ellipse2D getGeometry() {
   /* {author=Lukas, version=1.0}*/
     Ellipse2D P;
     P = new Ellipse2D.Double(this.x, this.y, 5, 5);

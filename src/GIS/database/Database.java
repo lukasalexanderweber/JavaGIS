@@ -3,6 +3,9 @@ package GIS.database;
 import GIS.geometry.GISPolygon;
 import GIS.geometry.GISPolyline;
 import GIS.geometry.GISPoint;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /*
@@ -16,15 +19,26 @@ import java.util.ArrayList;
  */
 public class Database {
 
-  /** 
+   /** 
+   *  the Database Management System
+   */
+  public String DBMS;
+    
+   /** 
    *  the Database name
    */
   public String dbName;
 
+   /** 
+   *  The Database server port
+   */
+  public String dbHost;
+
+  
   /** 
    *  The Database server port
    */
-  public int dbPort;
+  public String dbPort;
 
   /** 
    *  the Database user name
@@ -44,11 +58,14 @@ public class Database {
   /** 
    *  creates a db connection using the connection parameters
    *  return true when processed sucessfull
+     * @return 
+     * @throws java.sql.SQLException 
    */
-  public boolean dbConnect() {
+  public Connection dbConnect() throws SQLException {
   /* {author=Name, version=1.0}*/
-
-  return false;
+    String connection = "jdbc:"+ DBMS +"://" + dbHost + ":" + dbPort + "/" + dbName + "?autoReconnect=true&useSSL=false";    
+    Connection dbmsconn = DriverManager.getConnection(connection, dbUser, dbPassword);
+    return dbmsconn;
   }
 
   /** 

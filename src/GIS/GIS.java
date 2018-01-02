@@ -58,9 +58,9 @@ public class GIS extends JFrame implements ActionListener  {
     boolean drawPolygonStarted = false;
     boolean drawPolylineStarted = false;
     int numberOfPoints = 0;
-    Ellipse2D Point2D;
-    Path2D Polygon2D;
-    Path2D Polyline2D;
+    GISPoint Point;
+    GISPolyline Polyline;
+    GISPolygon Polygon;
     
     // --------------------------------------------------
     // Constructor which initiates GIS functionality
@@ -68,6 +68,9 @@ public class GIS extends JFrame implements ActionListener  {
     GIS(){
         super("GIS"); //heading
 
+        // create new Content
+        c = new Content();
+        
         // create new Drawing Panel
         p = new DrawingPanel();
       
@@ -107,13 +110,18 @@ public class GIS extends JFrame implements ActionListener  {
         p.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                
+                // create point at the actual position
+                Point = new GISPoint();
+                Point.createPoint(mouseX, mouseY);
+                
                 switch (ActualState) {
                     
-                    // if drawPolyline mode in active
+                    // if drawPoint mode in active
                     case "drawPoint":
-                        // create new Ellipse2D with a radius of 5px
-                        Point2D = new Ellipse2D.Double(mouseX, mouseY, 5, 5);
-                        p.drawPoint(Point2D, true);
+                        // add GISPoint to content and repaint
+                        c.addPoint(Point);
+                        p.updateContent(c);
                         p.repaint();
                         System.out.println(String.valueOf(Math.round(mouseX))+" "+
                                 String.valueOf(Math.round(mouseX)));
@@ -123,29 +131,34 @@ public class GIS extends JFrame implements ActionListener  {
                     case "drawPolyline":
                         // if no Polyline draw has started yet
                         if (drawPolylineStarted == false){
-                            // create new Path2D and move startpoint to actual x,y
-                            Polyline2D = new Path2D.Double();
-                            Polyline2D.moveTo(mouseX, mouseY);
-                            // pass the polyline to the DrawingPanel
-                            p.drawPolyline(Polyline2D, false);
+                            // create new GISPolyline and add first point
+                            Polyline = new GISPolyline();
+                            Polyline.addPoint(Point);
+                            // add GISPolyline to content
+                            c.addPolyline(Polyline);
+                            p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
                                     String.valueOf(Math.round(mouseX)));
-                            // indicate that new Polygon draw started
                             drawPolylineStarted = true;
                         }
                         // finish plot when doubleclick (ClickCount()==2)
                         if (e.getClickCount() == 2 && drawPolylineStarted == true) {
                             System.out.println("Doubleclick");
-                            p.drawPolyline(Polyline2D, true);
+                            // add the last point and refresh the polyline in the content
+                            Polyline.addPoint(Point);
+                            c.refreshPolyline(Polyline);
+                            p.updateContent(c);
                             p.repaint();
                             // indicate that Polygon draw is finished
                             drawPolylineStarted = false;
                         }
-                        // adding new points to Polygon
+                        // adding new points to Polyline
                         else{
-                            Polyline2D.lineTo(mouseX, mouseY);
-                            p.drawPolyline(Polyline2D, false);
+                            // add the next point and refresh the polyline in the content
+                            Polyline.addPoint(Point);
+                            c.refreshPolyline(Polyline);
+                            p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
                                     String.valueOf(Math.round(mouseX)));
@@ -155,37 +168,39 @@ public class GIS extends JFrame implements ActionListener  {
                     case "drawPolygon":
                         // if no Polygon draw has started yet
                         if (drawPolygonStarted == false){
-                            // create new Path2D and move startpoint to actual x,y
-                            Polygon2D = new Path2D.Double();
-                            Polygon2D.moveTo(mouseX, mouseY);
-                            p.drawPolygon(Polygon2D, false, numberOfPoints);
+                            // create new GISPoint and add first point
+                            Polygon = new GISPolygon();
+                            Polygon.addPoint(Point);
+                            // add GISPolygon to content
+                            c.addPolygon(Polygon);
+                            p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
                                     String.valueOf(Math.round(mouseX)));
-                            // indicate that new Polygon draw started
                             drawPolygonStarted = true;
-                            numberOfPoints += 1;
                         }
                         // finish plot when doubleclick (ClickCount()==2)
                         if (e.getClickCount() == 2 && drawPolygonStarted == true) {
                             System.out.println("Doubleclick");
-                            Polygon2D.closePath();
-                            p.drawPolygon(Polygon2D, true, numberOfPoints);
+                            // add the last point and refresh the polyline in the content
+                            Polygon.addPoint(Point);
+                            c.refreshPolygon(Polygon);
+                            p.updateContent(c);
                             p.repaint();
                             // indicate that Polygon draw is finished
                             drawPolygonStarted = false;
-                            numberOfPoints = 0;
                         }
                         // adding new points to Polygon
                         else{
-                            Polygon2D.lineTo(mouseX, mouseY);
-                            p.drawPolygon(Polygon2D, false, numberOfPoints);
+                            // add the next point and refresh the polyline in the content
+                            Polygon.addPoint(Point);
+                            c.refreshPolygon(Polygon);
+                            p.updateContent(c);
                             p.repaint();
-                            numberOfPoints += 1;
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
                                     String.valueOf(Math.round(mouseX)));
                         }                        
-                        break; 
+                        break;  
                     
                     // do nothing if the state is none of those 3
                     default:
@@ -458,62 +473,62 @@ public class GIS extends JFrame implements ActionListener  {
         gis.setLayout();
         gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         
-        // just some method testing:
-        
-        // GISPOINT
-        // create Point object and set coordinates
-        GISPoint p1 = new GISPoint();
-        double x = (double) 1.5;
-        double y = (double) 3;
-        p1.createPoint(x, y);
-        
-        // get the attributes
-        System.out.println(p1.getX());
-        System.out.println(p1.getY());
-        System.out.println(p1.getType());
-        System.out.println(p1.getID());
-        
-        // check writeGeometryAsText and geometryAsTextToPoint
-        System.out.println(p1.writeGeometryAsText());
-        String geom = p1.writeGeometryAsText();
-        GISPoint p2 = new GISPoint();
-        p2.geometryAsTextToPoint(geom);
-        System.out.println(p2.getX());
-        
-        // GISPOLYLINE
-        // create another Point
-        GISPoint p3 = new GISPoint();
-        double x2 = (double) 4.76;
-        double y2 = (double) 1.23;
-        p3.createPoint(x2, y2);
-        
-        // create Polyline and check the attributes
-        GISPolyline polyl = new GISPolyline();
-        System.out.println(polyl.getType());       
-        
-        // add Points to Polyline
-        polyl.addPoint(p1);
-        polyl.addPoint(p3);
-        
-        // check writeGeometryAsText and geometryAsTextToPoint
-        String geom2 = polyl.writeGeometryAsText();
-        System.out.println(geom2);
-        GISPolyline polyl2 = new GISPolyline();
-        polyl2.geometryAsTextToLine(geom2);
-        System.out.println(polyl2.writeGeometryAsText());
-        
-        // GISPOLYGON
-        GISPolygon polyg = new GISPolygon();
-        System.out.println(polyg.getType());
-        polyg.addPoint(p1);
-        polyg.addPoint(p3);
-        polyg.closePolygon();
-        String geom3 = polyg.writeGeometryAsText();
-        System.out.println(polyg.writeGeometryAsText());
-
-        GISPolygon polyg2 = new GISPolygon();
-        polyg2.geometryAsTextToLine(geom3);
-        System.out.println(polyg2.writeGeometryAsText());
-        System.out.println(polyg2.NoPoints);
+//        // just some method testing:
+//        
+//        // GISPOINT
+//        // create Point object and set coordinates
+//        GISPoint p1 = new GISPoint();
+//        double x = (double) 1.5;
+//        double y = (double) 3;
+//        p1.createPoint(x, y);
+//        
+//        // get the attributes
+//        System.out.println(p1.getX());
+//        System.out.println(p1.getY());
+//        System.out.println(p1.getType());
+//        System.out.println(p1.getID());
+//        
+//        // check writeGeometryAsText and geometryAsTextToPoint
+//        System.out.println(p1.getGeometryAsText());
+//        String geom = p1.getGeometryAsText();
+//        GISPoint p2 = new GISPoint();
+//        p2.setGeometryFromText(geom);
+//        System.out.println(p2.getX());
+//        
+//        // GISPOLYLINE
+//        // create another Point
+//        GISPoint p3 = new GISPoint();
+//        double x2 = (double) 4.76;
+//        double y2 = (double) 1.23;
+//        p3.createPoint(x2, y2);
+//        
+//        // create Polyline and check the attributes
+//        GISPolyline polyl = new GISPolyline();
+//        System.out.println(polyl.getType());       
+//        
+//        // add Points to Polyline
+//        polyl.addPoint(p1);
+//        polyl.addPoint(p3);
+//        
+//        // check writeGeometryAsText and geometryAsTextToPoint
+//        String geom2 = polyl.getGeometryAsText();
+//        System.out.println(geom2);
+//        GISPolyline polyl2 = new GISPolyline();
+//        polyl2.setGeometryFromText(geom2);
+//        System.out.println(polyl2.getGeometryAsText());
+//        
+//        // GISPOLYGON
+//        GISPolygon polyg = new GISPolygon();
+//        System.out.println(polyg.getType());
+//        polyg.addPoint(p1);
+//        polyg.addPoint(p3);
+//        polyg.closePolygon();
+//        String geom3 = polyg.getGeometryAsText();
+//        System.out.println(polyg.getGeometryAsText());
+//
+//        GISPolygon polyg2 = new GISPolygon();
+//        polyg2.setGeometryFromText(geom3);
+//        System.out.println(polyg2.getGeometryAsText());
+//        System.out.println(polyg2.NoPoints);
     }
 }

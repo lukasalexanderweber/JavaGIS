@@ -15,37 +15,34 @@ public class Content {
 
   public ArrayList<GISPolygon> polygonlist = new ArrayList();
 
-  public void drawPoints(ArrayList pointlist) {
-  /* {author=Name, version=1.0}*/
 
+  public void addPoint(GISPoint point) {
+  /* {author=Name, version=1.0}*/
+    pointlist.add(point);
   }
 
-  public void drawPolylines(ArrayList polylinelist) {
+  public void addPolyline(GISPolyline polyline) {
   /* {author=Name, version=1.0}*/
-
+    polylinelist.add(polyline);
+  }
+  /**
+  * refreshes the last element of the arraylist polyline
+     * @param polyline the updated polyline
+  */
+  public void refreshPolyline(GISPolyline polyline) {
+  /* {author=Name, version=1.0}*/
+    polylinelist.set(polylinelist.size() - 1, polyline);
+    System.out.println(polyline.NoPoints);
   }
 
-  public void drawPolygons(ArrayList polygonlist) {
+  public void addPolygon(GISPolygon polygon) {
   /* {author=Name, version=1.0}*/
-
+    polygonlist.add(polygon);
   }
-
-  public boolean addPoint(GISPoint point) {
+  
+  public void refreshPolygon(GISPolygon polygon) {
   /* {author=Name, version=1.0}*/
-
-  return false;
-  }
-
-  public boolean addPolyline(GISPolyline polyline) {
-  /* {author=Name, version=1.0}*/
-
-  return false;
-  }
-
-  public boolean addPolygon(GISPolygon polygon) {
-  /* {author=Name, version=1.0}*/
-
-  return false;
+    polygonlist.set(polygonlist.size() - 1, polygon);
   }
 
   public boolean removePoint(int id) {
