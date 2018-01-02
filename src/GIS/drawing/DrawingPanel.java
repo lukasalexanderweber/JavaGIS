@@ -105,26 +105,26 @@ public class DrawingPanel extends JPanel {
     }
     
     public void drawPoint(Ellipse2D point, boolean comp) { 
-        this.drawPoint = point;   
-        if (comp == true){
-            points.add(point);
-            drawPoint = null;
-        }
-    }
-    public void drawPolyline(Path2D polyline, boolean comp) { 
-        this.drawPolyline = polyline;
-        if (comp == true){
-            polylines.add(polyline);
-            drawPolyline = null;
-        }
-    }
-    public void drawPolygon(Path2D polygon, boolean comp, int noPoints) { 
-        this.drawPolygon = polygon;
-        this.NoOfPoints = noPoints;  
-        if (comp == true){
-            polygons.add(polygon);
-            drawPolygon = null;
-            NoOfPoints = 0;
-        }
-    }
+         this.drawPoint = point;   
+         if (comp == true){
+             points.add(point);
+             drawPoint = null;
+         }
+     }
+     public void drawPolyline(Path2D polyline, boolean comp) { 
+         this.drawPolyline = polyline;
+         if (comp == true){
+             polylines.add(polyline);
+             drawPolyline = null;
+         }
+     }
+     public void drawPolygon(Path2D polygon, boolean comp, int noPoints) { 
+         this.drawPolygon = polygon;
+         this.NoOfPoints = noPoints;  
+         if (comp == true){
+             polygons.add(polygon);
+             drawPolygon = null;
+             NoOfPoints = 0;
+         }
+     }
 }

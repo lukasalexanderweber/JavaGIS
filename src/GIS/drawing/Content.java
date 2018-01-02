@@ -9,11 +9,11 @@ import java.util.ArrayList;
  */
 public class Content {
 
-  public ArrayList points;
+  public ArrayList<GISPoint> pointlist = new ArrayList();
 
-  public ArrayList polylines;
+  public ArrayList<GISPolyline> polylinelist = new ArrayList();
 
-  public ArrayList polygons;
+  public ArrayList<GISPolygon> polygonlist = new ArrayList();
 
   public void drawPoints(ArrayList pointlist) {
   /* {author=Name, version=1.0}*/

@@ -20,6 +20,10 @@ public class GISPolyline extends Geometry {
    *  the length of the line
    */
   public float length;
+    /**
+     *  the length of the line
+     */
+  public int NoPoints = 0;
 
   
   // METHODS
@@ -37,7 +41,7 @@ public class GISPolyline extends Geometry {
    *  functionality.
    */
     public void setTypeToPolygon(){
-        this.type = "Polygon";
+        type = "Polygon";
     }
 
     /** 
@@ -48,6 +52,7 @@ public class GISPolyline extends Geometry {
     public void addPoint(GISPoint point) {
     /* {author=Name, version=1.0}*/
         pointlist.add(point);
+        NoPoints = pointlist.size();
     }
   
   /** 
@@ -115,6 +120,7 @@ public class GISPolyline extends Geometry {
                 // add point to pointlist
                 pointlist.add(GISp);
             }
+            NoPoints = pointlist.size();
             return true;
         }
         else{

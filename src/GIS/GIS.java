@@ -22,6 +22,7 @@ public class GIS extends JFrame implements ActionListener  {
     
     // variable decleration:
     DrawingPanel p;
+    Content c;
 
     // Layout
     JButton buttonPlus, buttonMinus, AddFile, FE,PanB, fileOp, DB;
@@ -46,7 +47,7 @@ public class GIS extends JFrame implements ActionListener  {
     double mouseX;
     double mouseY;
 
-    // old mouse coordinates (for paning)
+    // old and new mouse coordinates (for paning)
     double oldMouseX;
     double oldMouseY;
     double newMouseX;
@@ -464,7 +465,7 @@ public class GIS extends JFrame implements ActionListener  {
         GISPoint p1 = new GISPoint();
         double x = (double) 1.5;
         double y = (double) 3;
-        System.out.println(p1.createPoint(x, y));
+        p1.createPoint(x, y);
         
         // get the attributes
         System.out.println(p1.getX());
@@ -476,8 +477,7 @@ public class GIS extends JFrame implements ActionListener  {
         System.out.println(p1.writeGeometryAsText());
         String geom = p1.writeGeometryAsText();
         GISPoint p2 = new GISPoint();
-        System.out.println(p2.geometryAsTextToPoint("error"));
-        System.out.println(p2.geometryAsTextToPoint(geom));
+        p2.geometryAsTextToPoint(geom);
         System.out.println(p2.getX());
         
         // GISPOLYLINE
@@ -514,5 +514,6 @@ public class GIS extends JFrame implements ActionListener  {
         GISPolygon polyg2 = new GISPolygon();
         polyg2.geometryAsTextToLine(geom3);
         System.out.println(polyg2.writeGeometryAsText());
+        System.out.println(polyg2.NoPoints);
     }
 }

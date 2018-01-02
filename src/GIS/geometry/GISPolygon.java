@@ -37,6 +37,7 @@ public class GISPolygon extends GISPolyline {
   /* {author=Lukas, version=1.0}*/
     if (!pointlist.isEmpty()){
         pointlist.add(pointlist.get(0));
+        NoPoints = pointlist.size();
     }
     else{
         System.err.println("closePolygon(): no Points in Pointlist");

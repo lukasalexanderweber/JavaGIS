@@ -1,5 +1,7 @@
 package GIS.geometry;
 
+import java.awt.geom.Ellipse2D;
+
 /*
  */
 /** 
@@ -96,6 +98,17 @@ public class GISPoint extends Geometry {
         return false;
     }
   }
+  
+   /** 
+   *  returns an Ellipse2D object which can be drawn 
+     * @return Ellipse2D with X and Y coordinates and a radius of 5
+   */
+  public Ellipse2D drawPoint() {
+  /* {author=Lukas, version=1.0}*/
+    Ellipse2D P;
+    P = new Ellipse2D.Double(this.x, this.y, 5, 5);
+    return P;
+  }
 
   /** 
    *  returns X coordinate (the attribute x)
@@ -105,7 +118,7 @@ public class GISPoint extends Geometry {
   public double getX() {
   /* {author=Lukas, version=1.0}*/
 
-  return this.x;
+    return this.x;
   }
 
   /** 
@@ -116,7 +129,7 @@ public class GISPoint extends Geometry {
   public double getY() {
   /* {author=Lukas, version=1.0}*/
 
-  return this.y;
+    return this.y;
   }
 
 }
