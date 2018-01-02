@@ -21,18 +21,32 @@ public class Geometry {
   
   // METHODS
 
+   /** 
+   *  Constructor sets the value of attributes id and type
+   *  Type is specific from the created Geometry and is passed by super("Point")
+     * @param type one of "Point", "Polyline" or "Polygon"
+   */
+  public Geometry(String type){
+      // TO-DO: get existing ID's and create a unique one!!
+      int testid = 1;
+      this.id = testid;
+      this.type = type;
+  }
+  
   /** 
    *  returns the value of the attribute id
+     * @return ID of the object
    */
   public int getID() {
-  return this.id;
+       return this.id;
   }
 
   /** 
    *  returns the value of the attribute type
+     * @return Type of the object
    */
   public String getType() {
-  return this.type;
+       return this.type;
   }
-
+  
 }

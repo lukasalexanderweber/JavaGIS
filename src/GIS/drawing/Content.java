@@ -1,8 +1,8 @@
 package GIS.drawing;
 
-import GIS.geometry.Polygon;
-import GIS.geometry.Polyline;
-import GIS.geometry.Point;
+import GIS.geometry.GISPolygon;
+import GIS.geometry.GISPolyline;
+import GIS.geometry.GISPoint;
 import java.util.ArrayList;
 
 /*
@@ -30,19 +30,19 @@ public class Content {
 
   }
 
-  public boolean addPoint(Point point) {
+  public boolean addPoint(GISPoint point) {
   /* {author=Name, version=1.0}*/
 
   return false;
   }
 
-  public boolean addPolyline(Polyline polyline) {
+  public boolean addPolyline(GISPolyline polyline) {
   /* {author=Name, version=1.0}*/
 
   return false;
   }
 
-  public boolean addPolygon(Polygon polygon) {
+  public boolean addPolygon(GISPolygon polygon) {
   /* {author=Name, version=1.0}*/
 
   return false;

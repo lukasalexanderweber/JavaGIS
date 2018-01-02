@@ -1,8 +1,8 @@
 package GIS.database;
 
-import GIS.geometry.Polygon;
-import GIS.geometry.Polyline;
-import GIS.geometry.Point;
+import GIS.geometry.GISPolygon;
+import GIS.geometry.GISPolyline;
+import GIS.geometry.GISPoint;
 import java.util.ArrayList;
 
 /*
@@ -57,7 +57,7 @@ public class Database {
    *  
    *  return true when processed sucessfull
    */
-  public boolean insertPoint(Point point) {
+  public boolean insertPoint(GISPoint point) {
   /* {author=Name, version=1.0}*/
 
   return false;
@@ -69,7 +69,7 @@ public class Database {
    *  
    *  return true when processed sucessfull
    */
-  public boolean insertPolyline(Polyline polyline) {
+  public boolean insertPolyline(GISPolyline polyline) {
   /* {author=Name, version=1.0}*/
 
   return false;
@@ -81,7 +81,7 @@ public class Database {
    *  
    *  return true when processed sucessfull
    */
-  public boolean insertPolygon(Polygon polygon) {
+  public boolean insertPolygon(GISPolygon polygon) {
   /* {author=Name, version=1.0}*/
 
   return false;

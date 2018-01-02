@@ -1,7 +1,9 @@
 package GIS;
 
-import GIS.drawing.DrawingPanel;
-import GIS.database.DB_connection;
+import GIS.geometry.*;
+import GIS.drawing.*;
+import GIS.database.*;
+import GIS.csv.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -454,6 +456,63 @@ public class GIS extends JFrame implements ActionListener  {
         GIS gis = new GIS(); 
         gis.setLayout();
         gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
-        System.out.println("start");
+        
+        // just some method testing:
+        
+        // GISPOINT
+        // create Point object and set coordinates
+        GISPoint p1 = new GISPoint();
+        double x = (double) 1.5;
+        double y = (double) 3;
+        System.out.println(p1.createPoint(x, y));
+        
+        // get the attributes
+        System.out.println(p1.getX());
+        System.out.println(p1.getY());
+        System.out.println(p1.getType());
+        System.out.println(p1.getID());
+        
+        // check writeGeometryAsText and geometryAsTextToPoint
+        System.out.println(p1.writeGeometryAsText());
+        String geom = p1.writeGeometryAsText();
+        GISPoint p2 = new GISPoint();
+        System.out.println(p2.geometryAsTextToPoint("error"));
+        System.out.println(p2.geometryAsTextToPoint(geom));
+        System.out.println(p2.getX());
+        
+        // GISPOLYLINE
+        // create another Point
+        GISPoint p3 = new GISPoint();
+        double x2 = (double) 4.76;
+        double y2 = (double) 1.23;
+        p3.createPoint(x2, y2);
+        
+        // create Polyline and check the attributes
+        GISPolyline polyl = new GISPolyline();
+        System.out.println(polyl.getType());       
+        
+        // add Points to Polyline
+        polyl.addPoint(p1);
+        polyl.addPoint(p3);
+        
+        // check writeGeometryAsText and geometryAsTextToPoint
+        String geom2 = polyl.writeGeometryAsText();
+        System.out.println(geom2);
+        GISPolyline polyl2 = new GISPolyline();
+        polyl2.geometryAsTextToLine(geom2);
+        System.out.println(polyl2.writeGeometryAsText());
+        
+        // GISPOLYGON
+        GISPolygon polyg = new GISPolygon();
+        System.out.println(polyg.getType());
+        polyg.addPoint(p1);
+        polyg.addPoint(p3);
+        polyg.closePolygon();
+        String geom3 = polyg.writeGeometryAsText();
+        System.out.println(polyg.writeGeometryAsText());
+
+        GISPolygon polyg2 = new GISPolygon();
+        polyg2.geometryAsTextToLine(geom3);
+        System.out.println(polyg2.writeGeometryAsText());
     }
 }

@@ -7,8 +7,9 @@ package GIS.geometry;
  *  Refer to the object Polyline for the inherited methods to fill the pointlist and write to or create from DB/CSV friendly formats.
  *  Additional attributes for Polylines are: circumference and area.
  */
-public class Polygon extends Polyline {
-
+public class GISPolygon extends GISPolyline {
+  /* {author=Lukas, version=1.0}*/
+    
   /** 
    *  the circumference of the Polygon
    */
@@ -19,19 +20,34 @@ public class Polygon extends Polyline {
    */
   public float area;
 
+   /** 
+   *  Constructor: because GISPolygon extends from GISPolyline and not from Geometry,
+   *  the type field of the super.super class can not be acessed (not allowed);
+   *  The attribute needs to be changed indirectly by calling the setTypeToPolygon()
+   *  method of the class GISPolyline
+   */
+  public GISPolygon() {
+      setTypeToPolygon(); 
+  }
+
   /** 
    *  when finished drawing, the first point of the pointlist will be added as the last point to close the polyline.
    */
   public void closePolygon() {
-  /* {author=Name, version=1.0}*/
-
+  /* {author=Lukas, version=1.0}*/
+    if (!pointlist.isEmpty()){
+        pointlist.add(pointlist.get(0));
+    }
+    else{
+        System.err.println("closePolygon(): no Points in Pointlist");
+    }
   }
 
   /** 
    *  calculate the circumference of a Polygon, stored in Attribute circumference.
    */
   public void calculateCircumference() {
-  /* {author=Name, version=1.0}*/
+  /* {author=Lukas, version=1.0}*/
 
   }
 
@@ -40,7 +56,7 @@ public class Polygon extends Polyline {
    *  (if the attribute is not filled yet, tell the user to use calculateCircumference)
    */
   public float getCircumference() {
-  /* {author=Name, version=1.0}*/
+  /* {author=Lukas, version=1.0}*/
 
   return (float) 0.0;
   }
@@ -49,7 +65,7 @@ public class Polygon extends Polyline {
    *  calculate the area of a Polygon, stored in Attribute area.
    */
   public void calculateArea() {
-  /* {author=Name, version=1.0}*/
+  /* {author=Lukas, version=1.0}*/
 
   }
 
@@ -58,7 +74,7 @@ public class Polygon extends Polyline {
    *  (if the attribute is not filled yet, tell the user to use calculateArea)
    */
   public float getArea() {
-  /* {author=Name, version=1.0}*/
+  /* {author=Lukas, version=1.0}*/
 
   return (float) 0.0;
   }
