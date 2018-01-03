@@ -108,9 +108,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="saveToDb" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="LoadFromDB" min="-2" pref="112" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="saveAsCsv" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane2" alignment="1" pref="495" max="32767" attributes="0"/>
                       </Group>
@@ -177,6 +179,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="saveToDb" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="saveAsCsv" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="LoadFromDB" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   </Group>
@@ -232,9 +235,6 @@
     <Component class="javax.swing.JTextField" name="host_textfield">
       <Properties>
         <Property name="text" type="java.lang.String" value="localhost"/>
-        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[109, 26]"/>
-        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="host_textfieldActionPerformed"/>
@@ -246,9 +246,6 @@
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[109, 26]"/>
         </Property>
-        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[109, 26]"/>
-        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="user_textfield">
@@ -258,9 +255,6 @@
           <Dimension value="[10, 109]"/>
         </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[109, 26]"/>
-        </Property>
-        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[109, 26]"/>
         </Property>
       </Properties>
@@ -289,9 +283,6 @@
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[109, 26]"/>
         </Property>
-        <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[109, 0]"/>
-        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -317,7 +308,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="saveAsCsv">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Save as csv"/>
+        <Property name="text" type="java.lang.String" value="Export to CSV"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAsCsvActionPerformed"/>
@@ -354,5 +345,14 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="LoadFromDB">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Load into GIS"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoadFromDBActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

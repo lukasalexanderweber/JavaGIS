@@ -144,11 +144,13 @@ public class GISPolyline extends Geometry {
     GISPoint firstPoint = pointlist.get(0);
     Poly.moveTo(firstPoint.getX(), firstPoint.getY());
     
-    // subset all points but fist
-    ArrayList<GISPoint> pointlist2 = new ArrayList<>(pointlist.subList(1, NoPoints-1));
-    // and add them to the Path2D
-    for (GISPoint p : pointlist2) {
-        Poly.lineTo(p.getX(), p.getY());
+    // subset all points but first, if more than one point in list
+    if (pointlist.size() > 1){
+        ArrayList<GISPoint> pointlist2 = new ArrayList<>(pointlist.subList(1, NoPoints));
+        // and add them to the Path2D
+        for (GISPoint p : pointlist2) {
+            Poly.lineTo(p.getX(), p.getY());
+        }        
     }
     
     return Poly;

@@ -7,9 +7,7 @@ import GIS.csv.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.io.File;
 import javax.swing.*;
@@ -20,10 +18,23 @@ import javax.swing.filechooser.FileSystemView;
 
 public class GIS extends JFrame implements ActionListener  {
     
-    // variable decleration:
-    DrawingPanel p;
-    Content c;
+    // The GIS object
 
+    /** The Main object which is invoked in the main method
+     *
+     */
+    public static GIS gis;
+
+    /** The Content of the GIS which needs to be public for DB storage
+     *
+     */
+    public Content c;
+    
+
+    //variable declaration
+    DrawingPanel p;
+
+    
     // Layout
     JButton buttonPlus, buttonMinus, AddFile, FE,PanB, fileOp, DB;
     JButton buttonRight;
@@ -39,9 +50,9 @@ public class GIS extends JFrame implements ActionListener  {
     public static DB_connection DBconnect;
 
     // variables for zooming and paning
-    public double factor = 1;
-    public double horizontal = 0;
-    public double vertical = 0;
+    double factor = 1;
+    double horizontal = 0;
+    double vertical = 0;
 
     // mouse coordinates
     double mouseX;
@@ -65,7 +76,7 @@ public class GIS extends JFrame implements ActionListener  {
     // --------------------------------------------------
     // Constructor which initiates GIS functionality
     // --------------------------------------------------
-    GIS(){
+    public GIS(){
         super("GIS"); //heading
 
         // create new Content
@@ -136,11 +147,13 @@ public class GIS extends JFrame implements ActionListener  {
                             Polyline.addPoint(Point);
                             // add GISPolyline to content
                             c.addPolyline(Polyline);
+                            p.repaint();
                             p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
-                                    String.valueOf(Math.round(mouseX)));
+                                    String.valueOf(Math.round(mouseY)));
                             drawPolylineStarted = true;
+                            break;
                         }
                         // finish plot when doubleclick (ClickCount()==2)
                         if (e.getClickCount() == 2 && drawPolylineStarted == true) {
@@ -161,7 +174,7 @@ public class GIS extends JFrame implements ActionListener  {
                             p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
-                                    String.valueOf(Math.round(mouseX)));
+                                    String.valueOf(Math.round(mouseY)));
                         }                        
                         break; 
                         
@@ -176,8 +189,9 @@ public class GIS extends JFrame implements ActionListener  {
                             p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
-                                    String.valueOf(Math.round(mouseX)));
+                                    String.valueOf(Math.round(mouseY)));
                             drawPolygonStarted = true;
+                            break;
                         }
                         // finish plot when doubleclick (ClickCount()==2)
                         if (e.getClickCount() == 2 && drawPolygonStarted == true) {
@@ -198,7 +212,7 @@ public class GIS extends JFrame implements ActionListener  {
                             p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
-                                    String.valueOf(Math.round(mouseX)));
+                                    String.valueOf(Math.round(mouseY)));
                         }                        
                         break;  
                     
@@ -272,6 +286,17 @@ public class GIS extends JFrame implements ActionListener  {
         // just set unvisible when clicked on exit (DISPOSE)
         DBconnect.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         DBconnect.setVisible(true);
+    }
+    
+    // ---------------------------------
+    // Set Content after DB, CSV import
+    // ---------------------------------
+    public void setContent(Content cDB) {
+        this.c = cDB;
+        System.out.println(c.getPoints());
+        p.setPan(factor, horizontal, vertical);
+        p.updateContent(c);
+        p.repaint();
     }
     
     // -----------------
@@ -469,9 +494,10 @@ public class GIS extends JFrame implements ActionListener  {
     }
 
     public static void main(String[] args){
-        GIS gis = new GIS(); 
+        gis = new GIS(); 
         gis.setLayout();
-        gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
+        gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+        
         
 //        // just some method testing:
 //        

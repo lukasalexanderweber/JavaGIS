@@ -20,9 +20,9 @@ import java.awt.geom.AffineTransform;
 // here the JPanel is created
 public class DrawingPanel extends JPanel {
             
-    public double factor;
-    public double horizontal;
-    public double vertical;
+    double factor;
+    double horizontal;
+    double vertical;
 
     /**
      * ghd
@@ -57,7 +57,8 @@ public class DrawingPanel extends JPanel {
     
     // paintComponent for painting elements
     @Override
-    public void paintComponent(Graphics g) {  
+    public void paintComponent(Graphics g) { 
+        System.out.println("called");
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -66,22 +67,32 @@ public class DrawingPanel extends JPanel {
         AffineTransform tx = getCurrentTransform();
         g2.setTransform(tx);
                 
-        //paint imported/allready painted Geometries:
+        //color for the Geometries:
         Color color = new Color(1, 0, 0, 0.75f); //Red 
         g2.setPaint(color);
         
-        points.forEach((point) -> {
+        //draw all points:
+        points.forEach((GISPoint point) -> {
             Ellipse2D geom = point.getGeometry();
+            System.out.println(point.getGeometryAsText());
             g2.fill(geom);
         });            
 
-        polylines.forEach((polyline) -> {
+        //draw all polylines:
+        polylines.forEach((GISPolyline polyline) -> {
             Path2D geom = polyline.getGeometry();
             g2.draw(geom);
         });
-        polygons.forEach((polygon) -> {
+
+        //draw all polygons:
+        polygons.forEach((GISPolygon polygon) -> {
             Path2D geom = polygon.getGeometry();
-            g2.fill(geom);
+            if (polygon.NoPoints > 2){
+                g2.fill(geom);                
+            }
+            else{
+                g2.draw(geom);    
+            }
         });
     }
 }

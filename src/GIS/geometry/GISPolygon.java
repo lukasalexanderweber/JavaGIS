@@ -55,6 +55,7 @@ public class GISPolygon extends GISPolyline {
   /** 
    *  returns the value of attribute circumference of a Polyline
    *  (if the attribute is not filled yet, tell the user to use calculateCircumference)
+     * @return 
    */
   public float getCircumference() {
   /* {author=Lukas, version=1.0}*/
@@ -73,6 +74,7 @@ public class GISPolygon extends GISPolyline {
   /** 
    *  returns the value of attribute area of a Polyline
    *  (if the attribute is not filled yet, tell the user to use calculateArea)
+     * @return 
    */
   public float getArea() {
   /* {author=Lukas, version=1.0}*/

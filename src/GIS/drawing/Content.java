@@ -15,7 +15,15 @@ public class Content {
 
   public ArrayList<GISPolygon> polygonlist = new ArrayList();
 
-
+  public String getPoints() {
+  /* {author=Name, version=1.0}*/
+    String points = new String();
+    for (GISPoint p : pointlist){
+        points += p.getGeometryAsText();
+    }
+    return points;
+  }
+  
   public void addPoint(GISPoint point) {
   /* {author=Name, version=1.0}*/
     pointlist.add(point);
@@ -26,13 +34,12 @@ public class Content {
     polylinelist.add(polyline);
   }
   /**
-  * refreshes the last element of the arraylist polyline
+  * refreshes the last element of the arraylist polyline while drawing
      * @param polyline the updated polyline
   */
   public void refreshPolyline(GISPolyline polyline) {
   /* {author=Name, version=1.0}*/
     polylinelist.set(polylinelist.size() - 1, polyline);
-    System.out.println(polyline.NoPoints);
   }
 
   public void addPolygon(GISPolygon polygon) {

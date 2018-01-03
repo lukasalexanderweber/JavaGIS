@@ -5,20 +5,22 @@
  */
 package GIS.database;
 
+import static GIS.GIS.gis;
+import GIS.drawing.Content;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -30,11 +32,16 @@ public class DB_connection extends javax.swing.JFrame {
 
     // Database object to store connection information permanently
     Database db;
+    // Content received from GIS.java
+    Content c;
+    // Content received from DB import
+    Content cDB;
     
     /**
      * Creates new form db_connection
      */
     public DB_connection() {
+        this.c = gis.c;
         initComponents();
     }
 
@@ -72,6 +79,7 @@ public class DB_connection extends javax.swing.JFrame {
         Get = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         file_viewer = new javax.swing.JTable();
+        LoadFromDB = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -107,7 +115,6 @@ public class DB_connection extends javax.swing.JFrame {
         jLabel5.setText("Password");
 
         host_textfield.setText("localhost");
-        host_textfield.setSize(new java.awt.Dimension(109, 26));
         host_textfield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 host_textfieldActionPerformed(evt);
@@ -116,12 +123,10 @@ public class DB_connection extends javax.swing.JFrame {
 
         port_textfield.setText("3306");
         port_textfield.setPreferredSize(new java.awt.Dimension(109, 26));
-        port_textfield.setSize(new java.awt.Dimension(109, 26));
 
         user_textfield.setText("root");
         user_textfield.setMinimumSize(new java.awt.Dimension(10, 109));
         user_textfield.setPreferredSize(new java.awt.Dimension(109, 26));
-        user_textfield.setSize(new java.awt.Dimension(109, 26));
         user_textfield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 user_textfieldActionPerformed(evt);
@@ -135,7 +140,6 @@ public class DB_connection extends javax.swing.JFrame {
 
         DBMSName.setText("mysql");
         DBMSName.setPreferredSize(new java.awt.Dimension(109, 26));
-        DBMSName.setSize(new java.awt.Dimension(109, 0));
 
         jLabel8.setText("Table Name");
 
@@ -149,7 +153,7 @@ public class DB_connection extends javax.swing.JFrame {
             }
         });
 
-        saveAsCsv.setText("Save as csv");
+        saveAsCsv.setText("Export to CSV");
         saveAsCsv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveAsCsvActionPerformed(evt);
@@ -180,6 +184,14 @@ public class DB_connection extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(file_viewer);
+
+        LoadFromDB.setText("Load into GIS");
+        LoadFromDB.setToolTipText("");
+        LoadFromDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadFromDBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -224,9 +236,11 @@ public class DB_connection extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(saveToDb)
-                                .addGap(55, 55, 55)
+                                .addGap(18, 18, 18)
+                                .addComponent(LoadFromDB, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(saveAsCsv)
-                                .addGap(49, 49, 49))
+                                .addContainerGap())
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -277,7 +291,8 @@ public class DB_connection extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(saveToDb)
-                            .addComponent(saveAsCsv))
+                            .addComponent(saveAsCsv)
+                            .addComponent(LoadFromDB))
                         .addGap(13, 13, 13)))
                 .addComponent(connected_label)
                 .addContainerGap())
@@ -312,14 +327,16 @@ public class DB_connection extends javax.swing.JFrame {
     private void saveToDbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToDbActionPerformed
         try {
             String table = table_textfield.getText();
-            saveToDb();
-            JOptionPane.showMessageDialog(null,"Saved to database table: "+table);
+            db.insertContent(c);
+            JOptionPane.showMessageDialog(null,"Saved to database table: " + table);
         }
         
-        catch(Exception e){
+        catch(HeadlessException | SQLException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_saveToDbActionPerformed
+    
+                                         
 
     private void saveAsCsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsCsvActionPerformed
         try {
@@ -331,7 +348,7 @@ public class DB_connection extends javax.swing.JFrame {
             g.closeFile();
             JOptionPane.showMessageDialog(null,"Saved to file: "+csv);
         }
-        catch(Exception e){
+        catch(HeadlessException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_saveAsCsvActionPerformed
@@ -345,6 +362,18 @@ public class DB_connection extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_GetActionPerformed
+
+    private void LoadFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFromDBActionPerformed
+        try {
+            // load content from the DB
+            cDB = db.loadContent();
+            // and overwrite the actual content of the GIS
+            gis.setContent(cDB);
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_LoadFromDBActionPerformed
 
     public void displayData() throws Exception {
             try {
@@ -364,7 +393,7 @@ public class DB_connection extends javax.swing.JFrame {
                 display.close();
             }
             
-            catch(Exception e){
+            catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
     }
@@ -377,39 +406,11 @@ public class DB_connection extends javax.swing.JFrame {
         db.dbUser = user_textfield.getText();
         db.dbPassword = password_textfield.getText();
         db.DBMS = (String) DBMSName.getText();
+        db.tableName = table_textfield.getText();
         
         return db.dbConnect();
     }  
-    
-    public void saveToDb () throws Exception {
-        Connection con = getConnection();
-        
-        String[] point = new String[8];
-        point[0] = "Point2";
-        point[1] = "Point4";
-        point[2] = "Point5";
-        point[3] = "Point6";
-        point[4] = "Point7";
-        point[5] = "Point8";
-        point[6] = "Point9";
-        point[7] = "Point10";
-
-        String[] coordinates = new String[8];
-        coordinates[0] = "POINT(2,0)";
-        coordinates[1] = "POINT(2,1)";
-        coordinates[2] = "POINT(2,2)";
-        coordinates[3] = "POINT(2,3)";
-        coordinates[4] = "POINT(2,4)";
-        coordinates[5] = "POINT(2,5)";
-        coordinates[6] = "POINT(2,6)";
-        coordinates[7] = "POINT(2,7)";
-
-        for (int i=0; i < coordinates.length; i++){
-            PreparedStatement posted = con.prepareStatement("INSERT INTO shapes(name, geom) VALUES('"+point[i]+"','"+coordinates[i]+"')");
-            posted.executeUpdate();
-        }
-    }
-    
+      
      public class createfile {
         private Formatter file;
         
@@ -417,7 +418,7 @@ public class DB_connection extends javax.swing.JFrame {
             try {
                 file = new Formatter("coordinates.csv");
             }
-            catch(Exception e) {
+            catch(FileNotFoundException e) {
                 System.out.println("you have an error");
             }
         }
@@ -447,7 +448,6 @@ public class DB_connection extends javax.swing.JFrame {
             }
                 
         catch (IOException e) {
-                e.printStackTrace();
         }
         return false;
         }
@@ -463,6 +463,7 @@ public class DB_connection extends javax.swing.JFrame {
     private javax.swing.JButton Connect;
     private javax.swing.JTextField DBMSName;
     private javax.swing.JButton Get;
+    private javax.swing.JButton LoadFromDB;
     private javax.swing.JLabel connected_label;
     private javax.swing.JTextField dbname_textfield;
     private javax.swing.JTable file_viewer;

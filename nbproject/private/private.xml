@@ -3,18 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/database/DB_connection.java</file>
             <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/drawing/DrawingPanel.java</file>
+            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/database/DB_connection.java</file>
             <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/database/Database.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/geometry/Polygon.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/geometry/Geometry.java</file>
+            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/geometry/GISPolyline.java</file>
             <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/GIS.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/geometry/Point.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/geometry/Polyline.java</file>
             <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/drawing/Content.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/csv/CSVfile.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/javaapplication2/GIS.java</file>
-            <file>file:/C:/Users/Lukas/Documents/NetBeansProjects/JavaGIS/src/GIS/database/Shapes.java</file>
         </group>
     </open-files>
 </project-private>
