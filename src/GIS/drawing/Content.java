@@ -15,14 +15,6 @@ public class Content {
 
   public ArrayList<GISPolygon> polygonlist = new ArrayList();
 
-  public String getPoints() {
-  /* {author=Name, version=1.0}*/
-    String points = new String();
-    for (GISPoint p : pointlist){
-        points += p.getGeometryAsText();
-    }
-    return points;
-  }
   
   public void addPoint(GISPoint point) {
   /* {author=Name, version=1.0}*/
@@ -52,22 +44,16 @@ public class Content {
     polygonlist.set(polygonlist.size() - 1, polygon);
   }
 
-  public boolean removePoint(int id) {
+  public void removePoint(int id) {
   /* {author=Name, version=1.0}*/
-
-  return false;
   }
 
-  public boolean removePolyline(int id) {
+  public void removePolyline(int id) {
   /* {author=Name, version=1.0}*/
-
-  return false;
   }
 
-  public boolean removePolygon(int id) {
+  public void removePolygon(int id) {
   /* {author=Name, version=1.0}*/
-
-  return false;
   }
 
 }

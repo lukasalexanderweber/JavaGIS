@@ -293,7 +293,6 @@ public class GIS extends JFrame implements ActionListener  {
     // ---------------------------------
     public void setContent(Content cDB) {
         this.c = cDB;
-        System.out.println(c.getPoints());
         p.setPan(factor, horizontal, vertical);
         p.updateContent(c);
         p.repaint();

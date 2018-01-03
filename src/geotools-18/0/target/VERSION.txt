@@ -1,3 +1,0 @@
-version: 18.0
-git revision: 3f5dbf634c4a6b24476643cc7cf7d2b22747fcf5
-build date: 07-Oct-2017 10:46
