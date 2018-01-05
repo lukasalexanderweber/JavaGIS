@@ -41,6 +41,7 @@ public class DB_connection extends javax.swing.JFrame {
      * Creates new form db_connection
      */
     public DB_connection() {
+        // get the content of GIS.java
         this.c = gis.c;
         initComponents();
     }
@@ -76,7 +77,7 @@ public class DB_connection extends javax.swing.JFrame {
         table_textfield = new javax.swing.JTextField();
         saveToDb = new javax.swing.JButton();
         saveAsCsv = new javax.swing.JButton();
-        Get = new javax.swing.JButton();
+        ViewEntries = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         file_viewer = new javax.swing.JTable();
         LoadFromDB = new javax.swing.JButton();
@@ -160,10 +161,10 @@ public class DB_connection extends javax.swing.JFrame {
             }
         });
 
-        Get.setText("View File Entries");
-        Get.addActionListener(new java.awt.event.ActionListener() {
+        ViewEntries.setText("View File Entries");
+        ViewEntries.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GetActionPerformed(evt);
+                ViewEntriesActionPerformed(evt);
             }
         });
 
@@ -244,7 +245,7 @@ public class DB_connection extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Get)
+                        .addComponent(ViewEntries)
                         .addGap(187, 187, 187))))
         );
         layout.setVerticalGroup(
@@ -285,7 +286,7 @@ public class DB_connection extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(11, 11, 11)
-                        .addComponent(Get)
+                        .addComponent(ViewEntries)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -336,8 +337,6 @@ public class DB_connection extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveToDbActionPerformed
     
-                                         
-
     private void saveAsCsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsCsvActionPerformed
         try {
             String csv = "coordinates.csv";
@@ -353,21 +352,20 @@ public class DB_connection extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveAsCsvActionPerformed
 
-    private void GetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GetActionPerformed
+    private void ViewEntriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewEntriesActionPerformed
         try {
             displayData();
-        }
-          
+        }  
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }//GEN-LAST:event_GetActionPerformed
+    }//GEN-LAST:event_ViewEntriesActionPerformed
 
     private void LoadFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFromDBActionPerformed
         try {
-            // load content from the DB
+            // load content from the DB and store it in the Content object cDB
             cDB = db.loadContent();
-            // and overwrite the actual content of the GIS
+            // and overwrite the actual content of the GIS 
             gis.setContent(cDB);
             
         } catch (SQLException ex) {
@@ -375,6 +373,7 @@ public class DB_connection extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LoadFromDBActionPerformed
 
+    // called when view file entries is pressed
     public void displayData() throws Exception {
             try {
                 String tablename = table_textfield.getText();
@@ -398,6 +397,9 @@ public class DB_connection extends javax.swing.JFrame {
             }
     }
     
+    // called when connect button is pressed
+    // TO-DO: check if Table name exists,
+    // if not, ask the user if table should be generated automaticly
     public Connection getConnection () throws SQLException {
         db = new Database();
         db.dbHost = host_textfield.getText();
@@ -411,16 +413,16 @@ public class DB_connection extends javax.swing.JFrame {
         return db.dbConnect();
     }  
       
-     public class createfile {
-        private Formatter file;
-        
-        public void openFile() {
-            try {
-                file = new Formatter("coordinates.csv");
-            }
-            catch(FileNotFoundException e) {
-                System.out.println("you have an error");
-            }
+    public class createfile {
+       private Formatter file;
+
+       public void openFile() {
+           try {
+               file = new Formatter("coordinates.csv");
+           }
+           catch(FileNotFoundException e) {
+               System.out.println("you have an error");
+           }
         }
         
         public boolean addRecords(JTable table, String path) {
@@ -455,15 +457,15 @@ public class DB_connection extends javax.swing.JFrame {
         public void closeFile() {
             file.close();
         }
-}
+    }
     
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Connect;
     private javax.swing.JTextField DBMSName;
-    private javax.swing.JButton Get;
     private javax.swing.JButton LoadFromDB;
+    private javax.swing.JButton ViewEntries;
     private javax.swing.JLabel connected_label;
     private javax.swing.JTextField dbname_textfield;
     private javax.swing.JTable file_viewer;
