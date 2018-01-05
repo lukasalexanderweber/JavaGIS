@@ -104,7 +104,7 @@ public class Database {
     for (GISPoint p : c.pointlist) {
         type = p.getType();
         geom = p.getGeometryAsText();
-        PreparedStatement posted = con.prepareStatement("INSERT INTO shapes(type, geom) VALUES('"+type+"','"+geom+"')");
+        PreparedStatement posted = con.prepareStatement("INSERT INTO shapes (type, geom) VALUES('"+type+"','"+geom+"')");
         posted.executeUpdate();
     }
     
@@ -112,7 +112,7 @@ public class Database {
     for (GISPolyline p : c.polylinelist) {
         type = p.getType();
         geom = p.getGeometryAsText();
-        PreparedStatement posted = con.prepareStatement("INSERT INTO shapes(type, geom) VALUES('"+type+"','"+geom+"')");
+        PreparedStatement posted = con.prepareStatement("INSERT INTO shapes (type, geom) VALUES('"+type+"','"+geom+"')");
         posted.executeUpdate();
     }  
     
@@ -120,7 +120,7 @@ public class Database {
     for (GISPolygon p : c.polygonlist) {
         type = p.getType();
         geom = p.getGeometryAsText();
-        PreparedStatement posted = con.prepareStatement("INSERT INTO shapes(type, geom) VALUES('"+type+"','"+geom+"')");
+        PreparedStatement posted = con.prepareStatement("INSERT INTO shapes (type, geom) VALUES('"+type+"','"+geom+"')");
         posted.executeUpdate();
     }  
   }
@@ -152,7 +152,7 @@ public class Database {
         PreparedStatement display;
 
         // execute Statement and store in resultSet
-        display = con.prepareStatement("SELECT * FROM " + tableName);
+        display = con.prepareStatement("SELECT * FROM shapes");
         resultSet = display.executeQuery();
         
         while (resultSet.next()){
