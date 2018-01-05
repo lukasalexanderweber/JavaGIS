@@ -1,5 +1,10 @@
 package GIS.geometry;
 
+import static GIS.GIS.gis;
+import GIS.drawing.Content;
+import java.util.ArrayList;
+import java.util.Collections;
+
 /** 
  *  Parent class for the three geometry types.
  */
@@ -11,7 +16,7 @@ public class Geometry {
    *  unique ID of the Geometrie
    *  (we have to think about how to assign them)
    */
-  public int id;
+  public int id = setUniqueID(gis.c);
 
   /** 
    *  type: One of Point, Polygon or Polyline
@@ -28,8 +33,6 @@ public class Geometry {
    */
   public Geometry(String type){
       // TO-DO: get existing ID's and create a unique one!!
-      int testid = 1;
-      this.id = testid;
       this.type = type;
   }
   
@@ -47,6 +50,40 @@ public class Geometry {
    */
   public String getType() {
        return this.type;
+  }
+  
+  public int setUniqueID(Content c){
+    ArrayList<Integer> ids = new ArrayList();
+    c.pointlist.forEach((GISPoint point) -> {
+        ids.add(point.getID());
+    }); 
+    c.polylinelist.forEach((GISPolyline polyline) -> {
+        ids.add(polyline.getID());
+    }); 
+    c.polygonlist.forEach((GISPolygon polygon) -> {
+        ids.add(polygon.getID());
+    }); 
+    c.SelectedPointlist.forEach((GISPoint point) -> {
+        ids.add(point.getID());
+    }); 
+    c.SelectedPolylinelist.forEach((GISPolyline polyline) -> {
+        ids.add(polyline.getID());
+    }); 
+    c.SelectedPolygonlist.forEach((GISPolygon polygon) -> {
+        ids.add(polygon.getID());
+    }); 
+      
+    int maxid;
+    
+    if (ids.isEmpty()){
+      maxid = 1;
+    }
+    else{
+        maxid = Collections.max(ids);
+    }   
+    
+    System.out.println(maxid+1);
+    return maxid + 1;
   }
   
 }

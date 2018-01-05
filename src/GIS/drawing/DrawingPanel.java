@@ -15,6 +15,7 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 
 // here the JPanel is created
@@ -23,6 +24,18 @@ public class DrawingPanel extends JPanel {
     double factor;
     double horizontal;
     double vertical;
+    
+    // geometry arrays, for example DB import
+    public ArrayList<GISPoint> points = new ArrayList<>();
+    public ArrayList<GISPolyline> polylines = new ArrayList<>();
+    public ArrayList<GISPolygon> polygons = new ArrayList<>();
+    
+    public ArrayList<GISPoint> selectedPoints = new ArrayList<>();
+    public ArrayList<GISPolyline> selectedPolylines = new ArrayList<>();
+    public ArrayList<GISPolygon> selectedPolygons = new ArrayList<>();
+    
+    // selection Rectangle
+    Rectangle2D selectR = null;
 
     /**
      * ghd
@@ -43,15 +56,17 @@ public class DrawingPanel extends JPanel {
         return tx;
     }
     
-    // geometry arrays, for example DB import
-    public ArrayList<GISPoint> points = new ArrayList<>();
-    public ArrayList<GISPolyline> polylines = new ArrayList<>();
-    public ArrayList<GISPolygon> polygons = new ArrayList<>();
-    
     public void updateContent(Content c) {
         points = c.pointlist; 
         polylines = c.polylinelist;         
         polygons = c.polygonlist; 
+        selectedPoints = c.SelectedPointlist;
+        selectedPolylines = c.SelectedPolylinelist;
+        selectedPolygons = c.SelectedPolygonlist;
+    }
+    
+    public void setSelectionRectangle(Rectangle2D rec) {
+        selectR = rec; 
     }
             
     
@@ -67,7 +82,7 @@ public class DrawingPanel extends JPanel {
         g2.setTransform(tx);
                 
         //color for the Geometries:
-        Color color = new Color(1, 0, 0, 0.75f); //Red 
+        Color color = new Color(0, 0, 0, 0.75f); //black 
         g2.setPaint(color);
         
         //draw all points:
@@ -84,6 +99,38 @@ public class DrawingPanel extends JPanel {
 
         //draw all polygons:
         polygons.forEach((GISPolygon polygon) -> {
+            Path2D geom = polygon.getGeometry();
+            if (polygon.NoPoints > 2){
+                g2.fill(geom);                
+            }
+            else{
+                g2.draw(geom);    
+            }
+        });
+        
+        // DRAW SELECTION RECTANGLE AND SELECTED GEOMETRIES
+        Color color2 = new Color(1, 0, 0, 0.75f); //Red
+        g2.setPaint(color2);
+        
+        //draw selection rectangle:        
+        if (selectR != null){
+            g2.draw(selectR);
+        }
+        
+        //draw all SELECTED points:
+        selectedPoints.forEach((GISPoint point) -> {
+            Ellipse2D geom = point.getGeometry();
+            g2.fill(geom);
+        });            
+
+        //draw all SELECTED polylines:
+        selectedPolylines.forEach((GISPolyline polyline) -> {
+            Path2D geom = polyline.getGeometry();
+            g2.draw(geom);
+        });
+
+        //draw all SELECTED polygons:
+        selectedPolygons.forEach((GISPolygon polygon) -> {
             Path2D geom = polygon.getGeometry();
             if (polygon.NoPoints > 2){
                 g2.fill(geom);                

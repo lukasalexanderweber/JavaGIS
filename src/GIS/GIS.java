@@ -9,12 +9,12 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import javax.swing.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.filechooser.FileSystemView;
 
 public class GIS extends JFrame implements ActionListener  {
     
@@ -31,12 +31,23 @@ public class GIS extends JFrame implements ActionListener  {
     public Content c;
     
 
+    /** The Drawing Panel of the GIS where Geometries are drawn
+     *
+     */
+    public DrawingPanel p;
+    
+    
     //variable declaration
-    DrawingPanel p;
-
     
     // Layout
-    JButton buttonPlus, buttonMinus, AddFile, FE,PanB, fileOp, DB;
+    JButton buttonPlus; 
+    JButton buttonMinus;
+    JButton AddFile;
+    JButton FE;
+    JButton PanB; 
+    JButton Select; 
+    JButton delete;
+    JButton DB;
     JButton buttonRight;
     JButton buttonLeft;
     JButton buttonTop;
@@ -46,7 +57,13 @@ public class GIS extends JFrame implements ActionListener  {
     JButton createPolygon;
     JLabel x;
     JLabel y;
-    JToolBar toolB;
+    JLabel Xv;
+    JLabel Yv;
+    JToolBar toolV;
+    JToolBar toolE;
+    JToolBar toolDb;
+    
+    
     public static DB_connection DBconnect;
 
     // variables for zooming and paning
@@ -58,7 +75,7 @@ public class GIS extends JFrame implements ActionListener  {
     double mouseX;
     double mouseY;
 
-    // old and new mouse coordinates (for paning)
+    // old and new mouse coordinates (for paning and selection rectangle drawing)
     double oldMouseX;
     double oldMouseY;
     double newMouseX;
@@ -68,6 +85,7 @@ public class GIS extends JFrame implements ActionListener  {
     String ActualState = "Pan";
     boolean drawPolygonStarted = false;
     boolean drawPolylineStarted = false;
+    boolean drawSelectionRectangleStarted = false;
     int numberOfPoints = 0;
     GISPoint Point;
     GISPolyline Polyline;
@@ -84,6 +102,7 @@ public class GIS extends JFrame implements ActionListener  {
         
         // create new Drawing Panel
         p = new DrawingPanel();
+        p.setBackground(Color.GRAY);
       
         // set the zoom and x,y offset (default 1,0,0)
         p.setPan(factor, horizontal, vertical);
@@ -215,6 +234,66 @@ public class GIS extends JFrame implements ActionListener  {
                                     String.valueOf(Math.round(mouseY)));
                         }                        
                         break;  
+                        
+                    case "selectFeatures":
+                        // if no Polygon draw has started yet
+                        if (drawSelectionRectangleStarted == false){
+                            // remove already existing rectangle
+                            p.setSelectionRectangle(null);
+                            p.repaint();
+                            
+                            // save first click coordinates
+                            oldMouseX = Point.getX();
+                            oldMouseY = Point.getY();
+                            drawSelectionRectangleStarted = true;
+                            break;
+                        }
+
+                        else{
+                            // get second click coordinates
+                            newMouseX = Point.getX();
+                            newMouseY = Point.getY();
+                            
+                            // width and height for rectangle drawing
+                            double width = Math.abs(oldMouseX-newMouseX);
+                            double height = Math.abs(oldMouseY-newMouseY);
+                            
+                            double leftpoint;
+                            // the smaller X coordinate will be the X starting point of the rectangle
+                            if (newMouseX > oldMouseX){
+                                leftpoint = oldMouseX;
+                            }
+                            else{
+                                leftpoint = newMouseX;
+                            }
+                            
+                            double bottompoint;
+                            // the smaller Y coordinate will be the Y starting point of the rectangle
+                            if (newMouseY > oldMouseY){
+                                bottompoint = oldMouseY;
+                            }
+                            else{
+                                bottompoint = newMouseY;
+                            }
+                            
+                            // create a rectangle with the size defined above
+                            Rectangle2D selectR;
+                            selectR = new Rectangle2D.Double();
+                            selectR.setRect(leftpoint, bottompoint, width, height);
+                            
+                            // and paint it
+                            p.setSelectionRectangle(selectR);
+                            p.repaint();
+                            
+                            // select and recolor geometries contained/intersected by the rectangle
+                            c.selectGeometries(selectR);
+                            p.updateContent(c);
+                            p.repaint();
+                            
+                            drawSelectionRectangleStarted = false;
+                        }                        
+                        break;
+                    
                     
                     // do nothing if the state is none of those 3
                     default:
@@ -228,9 +307,11 @@ public class GIS extends JFrame implements ActionListener  {
         p.addMouseListener(new MouseInputAdapter() { 
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("pressed");
-                oldMouseX = e.getX();
-                oldMouseY = e.getY();
+                if (ActualState.equals("Pan")) {
+                    System.out.println("pressed");
+                    oldMouseX = e.getX();
+                    oldMouseY = e.getY();
+                }
                 // -> will be processed in mouseReleased listener
             }
  
@@ -253,7 +334,7 @@ public class GIS extends JFrame implements ActionListener  {
         // !!!! Zoom !!!!
         // MouseWheel to zoom in and out
         p.addMouseWheelListener((MouseWheelEvent e) -> {
-            if ("Pan".equals(ActualState)) {
+            if (ActualState.equals("Pan")) {
                 if (e.getWheelRotation() < 0) {
                     System.out.println("mouse wheel Up");
                     // zoom in when wheel up
@@ -297,84 +378,110 @@ public class GIS extends JFrame implements ActionListener  {
         p.updateContent(c);
         p.repaint();
     }
-    
+    //Image Icon 
+      
     // -----------------
     // Layout definition 
     // -----------------
     public void setLayout(){   
+        //icon of button image
+        ImageIcon zoomI = new ImageIcon("..\\JavaGIS\\src\\seicon\\zoomin.png");
+        ImageIcon zoomO = new ImageIcon("..\\JavaGIS\\src\\seicon\\zoomout.png");
+        ImageIcon PenPo = new ImageIcon("..\\JavaGIS\\src\\seicon\\point.png");
+        ImageIcon PenPl = new ImageIcon("..\\JavaGIS\\src\\seicon\\line.png");
+        ImageIcon PenPy = new ImageIcon("..\\JavaGIS\\src\\seicon\\polygon.png");
+        ImageIcon FuEt = new ImageIcon("..\\JavaGIS\\src\\seicon\\fullext.png");
+        ImageIcon Pan = new ImageIcon("..\\JavaGIS\\src\\seicon\\pan.jpg");
+        ImageIcon OpenF = new ImageIcon("..\\JavaGIS\\src\\seicon\\select.png");
+        ImageIcon DBI = new ImageIcon("..\\JavaGIS\\src\\seicon\\dbc.png");
+        ImageIcon Del = new ImageIcon("..\\JavaGIS\\src\\seicon\\delet.png");
+
         // Layout declaration
-        buttonMinus = new JButton("Zoom Out");
-        buttonPlus = new JButton("Zoom In");
-        buttonRight = new JButton("Right");
-        buttonLeft = new JButton("Left");
-        buttonTop = new JButton("Top");
-        buttonBottom = new JButton("Bottom");
-        createPoint = new JButton("Create Point");
-        createPolyline = new JButton("Create Polyline");
-        createPolygon = new JButton("Create Polygon");
-        FE = new JButton("FE");
-        PanB = new JButton("Pan");
-        fileOp = new JButton("Open File");
-        DB = new JButton("ConnectDB");
+        delete = new JButton("Delete", Del);
+        delete.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        delete.setBackground (Color.white);
+        buttonMinus = new JButton("Zoom Out",zoomO);
+        buttonMinus.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        buttonMinus.setBackground(Color.white);
+        buttonPlus = new JButton("Zoom In",zoomI);
+        buttonPlus.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        buttonPlus.setBackground(Color.white);
+        createPoint = new JButton("Point",PenPo);
+        createPoint.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        createPoint.setBackground(Color.white);
+        createPolyline = new JButton("Polyline",PenPl);
+        createPolyline.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        createPolyline.setBackground(Color.white);
+        createPolygon = new JButton("Polygon", PenPy);
+        createPolygon.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        createPolygon.setBackground(Color.white);
+        FE = new JButton("Full Extent", FuEt);
+        FE.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        FE.setBackground(Color.white);
+        PanB = new JButton("Pan",Pan);
+        PanB.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        PanB.setBackground(Color.white);
+        Select = new JButton("Select", OpenF);
+        Select.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        Select.setBackground(Color.white);
+        DB = new JButton("File Handler", DBI);
+        DB.setFont(new java.awt.Font("Comic Sans MS", 1, 12));
+        DB.setBackground(Color.white);
         x = new JLabel();
         y = new JLabel();
-        toolB = new JToolBar();
+        Xv = new JLabel("X: ");
+        Yv = new JLabel("Y: ");
+        toolV = new JToolBar("Navigation");
+        toolE = new JToolBar("Edit");
+        toolDb = new JToolBar("Data and File Handler");
 
         // adding ActionListener
         buttonMinus.addActionListener(this);
         buttonPlus.addActionListener(this);
-        buttonRight.addActionListener(this);
-        buttonLeft.addActionListener(this);
-        buttonTop.addActionListener(this);
-        buttonBottom.addActionListener(this);
         createPoint.addActionListener(this);
         createPolyline.addActionListener(this);
         createPolygon.addActionListener(this);
         FE.addActionListener(this);
         PanB.addActionListener(this);
-        fileOp.addActionListener(this);
+        Select.addActionListener(this);
         DB.addActionListener(this);
+        delete.addActionListener(this);
 
         // define Layout
 
-        toolB.add(createPoint);
-        toolB.add(createPolyline);
-        toolB.add(createPolygon);
-        toolB.add(buttonPlus);
-        toolB.add(buttonMinus); 
-        toolB.add(FE);
-        toolB.add(PanB);
-        toolB.add(fileOp);
-        toolB.add(DB);
-        toolB.setFloatable(true);
+        toolE.add(createPoint);
+        toolE.add(createPolyline);
+        toolE.add(createPolygon);
+        toolV.add(buttonPlus);
+        toolV.add(buttonMinus); 
+        toolV.add(FE);
+        toolV.add(PanB);
+        toolDb.add(Select);
+        toolDb.add(delete);
+        toolDb.add(DB);
+        toolV.setFloatable(true);
+        toolE.setFloatable(true);
+        toolDb.setFloatable(true);
 
         //box in four side
         Box box = Box.createHorizontalBox();
-        Box boxT = Box.createHorizontalBox();
-        Box boxE = Box.createVerticalBox();
-        Box boxW = Box.createVerticalBox();
+        Box boxT = Box.createHorizontalBox();       
         //box contain button and others
-        boxE.add(Box.createVerticalStrut(250));
-        boxE.add(buttonRight);
-        boxW.add(Box.createVerticalStrut(250));
-        boxW.add(buttonLeft);
-        boxT.add(Box.createHorizontalStrut(500));
-        boxT.add(buttonTop);
-        boxT.add(toolB);
-        box.add(Box.createHorizontalStrut(500));
-        box.add(buttonBottom);
-        box.add(Box.createHorizontalStrut(290));
+        boxT.add(Box.createHorizontalStrut(0));
+        boxT.add(toolV);
+        boxT.add(toolE);
+        boxT.add(toolDb);
+        box.add(Xv);
         box.add(x);
         box.add(Box.createHorizontalStrut(10));
+        box.add(Yv);
         box.add(y);
         add(box, BorderLayout.SOUTH);
         add(boxT, BorderLayout.NORTH);
-        add(boxE, BorderLayout.EAST);
-        add(boxW, BorderLayout.WEST);
         add(p, BorderLayout.CENTER);
 
 
-        setSize(1180,630);
+        setSize(1200,650);
         setVisible(true);
     }
     // ------------------------
@@ -425,15 +532,6 @@ public class GIS extends JFrame implements ActionListener  {
         else if(e.getSource() == buttonBottom) {
             vertical += 10;
         }
-        else if(e.getSource()==fileOp){
-            JFileChooser Jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            Jfc.setDialogTitle("Open CSV or DBMS file");
-            Jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            int Jfcreturn = Jfc.showOpenDialog(null);
-            if (Jfcreturn == JFileChooser.APPROVE_OPTION){
-                File[] file = Jfc.getSelectedFiles();   
-            }
-        }
         else if(e.getSource() == DB) {
             createDBconnectionWindow();
         }
@@ -443,6 +541,7 @@ public class GIS extends JFrame implements ActionListener  {
                 createPoint.setBackground(Color.GRAY);
                 createPolyline.setBackground(new JButton().getBackground()); //default color
                 createPolygon.setBackground(new JButton().getBackground()); //default color
+                Select.setBackground(new JButton().getBackground()); //default color
                 PanB.setBackground(new JButton().getBackground()); //default color
                 ActualState = "drawPoint";
             }
@@ -450,6 +549,7 @@ public class GIS extends JFrame implements ActionListener  {
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 createPoint.setBackground(new JButton().getBackground()); //default color
                 ActualState = "Pan";
+                PanB.setBackground(Color.GRAY);
             }
         }
         else if(e.getSource() == createPolyline) {
@@ -458,6 +558,7 @@ public class GIS extends JFrame implements ActionListener  {
                 createPolyline.setBackground(Color.GRAY);
                 createPoint.setBackground(new JButton().getBackground()); //default color
                 createPolygon.setBackground(new JButton().getBackground()); //default color
+                Select.setBackground(new JButton().getBackground()); //default color
                 PanB.setBackground(new JButton().getBackground()); //default color
                 ActualState = "drawPolyline";
             }
@@ -465,6 +566,7 @@ public class GIS extends JFrame implements ActionListener  {
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 createPolyline.setBackground(new JButton().getBackground()); //default color
                 ActualState = "Pan";
+                PanB.setBackground(Color.GRAY);
             }
         }
         else if(e.getSource() == createPolygon) {
@@ -474,12 +576,31 @@ public class GIS extends JFrame implements ActionListener  {
                 createPolyline.setBackground(new JButton().getBackground()); //default color
                 createPoint.setBackground(new JButton().getBackground()); //default color
                 PanB.setBackground(new JButton().getBackground()); //default color
+                Select.setBackground(new JButton().getBackground()); //default color
                 ActualState = "drawPolygon";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 createPolygon.setBackground(new JButton().getBackground()); //default color
                 ActualState = "Pan";
+                PanB.setBackground(Color.GRAY);
+            }
+        }
+        else if(e.getSource() == Select) {
+            if (!ActualState.equals("selectFeatures")){
+                p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                Select.setBackground(Color.GRAY);
+                createPolygon.setBackground(new JButton().getBackground()); //default color
+                createPolyline.setBackground(new JButton().getBackground()); //default color
+                createPoint.setBackground(new JButton().getBackground()); //default color
+                PanB.setBackground(new JButton().getBackground()); //default color
+                ActualState = "selectFeatures";
+            }
+            else{
+                p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                Select.setBackground(new JButton().getBackground()); //default color
+                ActualState = "Pan";
+                PanB.setBackground(Color.GRAY);
             }
         }
 
@@ -495,7 +616,8 @@ public class GIS extends JFrame implements ActionListener  {
     public static void main(String[] args){
         gis = new GIS(); 
         gis.setLayout();
-        gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+        gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        gis.setTitle("G.I. J Gmbh");
         
         
 //        // just some method testing:
