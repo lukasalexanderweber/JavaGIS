@@ -23,6 +23,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -62,12 +63,11 @@ public class DB_connection extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
-        saveToDb = new javax.swing.JButton();
-        exportToCsv = new javax.swing.JButton();
-        ViewEntries = new javax.swing.JButton();
+        saveToDb_btn = new javax.swing.JButton();
+        saveToCsv_btn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         file_viewer = new javax.swing.JTable();
-        LoadFromDB = new javax.swing.JButton();
+        LoadInGis_DB_btn = new javax.swing.JButton();
         label1 = new java.awt.Label();
         open_csv_btn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -88,10 +88,16 @@ public class DB_connection extends javax.swing.JFrame {
         Connect = new javax.swing.JButton();
         connected_label = new javax.swing.JLabel();
         label2 = new java.awt.Label();
-        path_txt = new javax.swing.JTextField();
         name_txt = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        path_txt = new javax.swing.JTextField();
+        import_db_btn = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
+        table_txt = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        import_csv_btn = new javax.swing.JButton();
+        clear_viewer_btn = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -108,24 +114,17 @@ public class DB_connection extends javax.swing.JFrame {
         setBackground(new java.awt.Color(204, 255, 204));
         setPreferredSize(new java.awt.Dimension(810, 515));
 
-        saveToDb.setText("Save into database");
-        saveToDb.addActionListener(new java.awt.event.ActionListener() {
+        saveToDb_btn.setText("Save into database");
+        saveToDb_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveToDbActionPerformed(evt);
+                saveToDb_btnActionPerformed(evt);
             }
         });
 
-        exportToCsv.setText("Export to CSV");
-        exportToCsv.addActionListener(new java.awt.event.ActionListener() {
+        saveToCsv_btn.setText("Save to CSV");
+        saveToCsv_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportToCsvActionPerformed(evt);
-            }
-        });
-
-        ViewEntries.setText("View File Entries");
-        ViewEntries.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewEntriesActionPerformed(evt);
+                saveToCsv_btnActionPerformed(evt);
             }
         });
 
@@ -147,11 +146,11 @@ public class DB_connection extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(file_viewer);
 
-        LoadFromDB.setText("Load into GIS");
-        LoadFromDB.setToolTipText("");
-        LoadFromDB.addActionListener(new java.awt.event.ActionListener() {
+        LoadInGis_DB_btn.setText("Load into GIS");
+        LoadInGis_DB_btn.setToolTipText("");
+        LoadInGis_DB_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoadFromDBActionPerformed(evt);
+                LoadInGis_DB_btnActionPerformed(evt);
             }
         });
 
@@ -159,7 +158,8 @@ public class DB_connection extends javax.swing.JFrame {
         label1.setForeground(new java.awt.Color(0, 0, 153));
         label1.setText("Connection with MySQL");
 
-        open_csv_btn.setText("Import from CSV");
+        open_csv_btn.setText("Open CSV");
+        open_csv_btn.setToolTipText("");
         open_csv_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 open_csv_btnActionPerformed(evt);
@@ -218,51 +218,53 @@ public class DB_connection extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(53, 53, 53))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(port_textfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(user_textfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)))
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(password_textfield, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(user_textfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DBMSName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(host_textfield)
-                    .addComponent(port_textfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2))
+                        .addGap(37, 37, 37)
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(DBMSName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(host_textfield))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(password_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(DBMSName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(host_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(23, 23, 23)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(port_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(user_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addComponent(password_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DBMSName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(host_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(port_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(user_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(password_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         dbname_textfield.setText("shapes");
@@ -283,31 +285,76 @@ public class DB_connection extends javax.swing.JFrame {
         label2.setForeground(new java.awt.Color(0, 0, 153));
         label2.setText("Connection with CSV");
 
+        jLabel8.setText("File");
+
+        jLabel9.setText("Path");
+
+        import_db_btn.setText("Import from Database");
+        import_db_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                import_db_btnActionPerformed(evt);
+            }
+        });
+
+        table_txt.setText("shapes");
+        table_txt.setPreferredSize(new java.awt.Dimension(109, 26));
+        table_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                table_txtActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Database Table");
+
         jLayeredPane2.setLayer(dbname_textfield, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(Connect, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(connected_label, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(label2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(name_txt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(path_txt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(import_db_btn, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jSeparator2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(table_txt, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
         jLayeredPane2.setLayout(jLayeredPane2Layout);
         jLayeredPane2Layout.setHorizontalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(dbname_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(import_db_btn)
+                        .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                            .addComponent(connected_label, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(Connect)))
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
+                        .addComponent(table_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel8))
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jLayeredPane2Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(30, 30, 30)
-                                .addComponent(dbname_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane2Layout.createSequentialGroup()
-                                .addComponent(connected_label, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Connect))))
-                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addComponent(jLabel9)))
+                .addGap(18, 18, 18)
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(name_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(path_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jLayeredPane2Layout.setVerticalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,101 +363,107 @@ public class DB_connection extends javax.swing.JFrame {
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(dbname_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addGap(18, 18, 18)
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Connect)
-                    .addComponent(connected_label, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10)
+                    .addComponent(table_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(connected_label, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Connect))
+                .addGap(50, 50, 50)
+                .addComponent(import_db_btn)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(name_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(path_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addContainerGap())
         );
 
-        label2.getAccessibleContext().setAccessibleName("Connection with CSV");
+        import_csv_btn.setText("Import from CSV");
+        import_csv_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                import_csv_btnActionPerformed(evt);
+            }
+        });
 
-        jLabel8.setText("File");
-
-        jLabel9.setText("Path");
+        clear_viewer_btn.setText("Clear Viewer");
+        clear_viewer_btn.setToolTipText("");
+        clear_viewer_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clear_viewer_btnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addGap(18, 18, 18)
+                        .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(path_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(exportToCsv))
-                            .addComponent(name_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveToDb)
-                        .addGap(18, 18, 18)
-                        .addComponent(LoadFromDB)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(144, 144, 144)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(110, 110, 110)
-                                        .addComponent(open_csv_btn))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(237, 237, 237)
-                                .addComponent(ViewEntries)))
-                        .addContainerGap(221, Short.MAX_VALUE))))
+                                        .addComponent(saveToDb_btn)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(clear_viewer_btn)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(saveToCsv_btn)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(LoadInGis_DB_btn))))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(open_csv_btn)
+                        .addGap(18, 18, 18)
+                        .addComponent(import_csv_btn)))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(ViewEntries))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25)
+                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLayeredPane2)
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(name_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(path_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
-                        .addContainerGap(24, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(saveToDb)
-                            .addComponent(LoadFromDB)
-                            .addComponent(open_csv_btn))
+                            .addComponent(saveToDb_btn)
+                            .addComponent(saveToCsv_btn)
+                            .addComponent(LoadInGis_DB_btn))
+                        .addGap(18, 18, 18)
+                        .addComponent(clear_viewer_btn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exportToCsv)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(open_csv_btn)
+                    .addComponent(import_csv_btn))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -439,42 +492,49 @@ public class DB_connection extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ConnectActionPerformed
 
-    private void saveToDbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToDbActionPerformed
+    private void saveToDb_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToDb_btnActionPerformed
         try {
-            //dropTable();
+            String tableName = table_txt.getText();
+            String dbname = dbname_textfield.getText();
             createTable();
+            deleteAllEntries();
             db.insertContent(c);
-            JOptionPane.showMessageDialog(null,"Saved to database");
-        }
-        
-        catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(null, "Saved to \ndatabase: " +dbname +" \ntable: " +tableName);
+        } 
+        catch (Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }//GEN-LAST:event_saveToDbActionPerformed
+    }//GEN-LAST:event_saveToDb_btnActionPerformed
     
-    private void exportToCsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportToCsvActionPerformed
+    private void saveToCsv_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToCsv_btnActionPerformed
         try {
-            createfile g = new createfile();
-            g.openFile();
-            g.addRecords(file_viewer, filepath);
-            g.closeFile();
-            JOptionPane.showMessageDialog(null,"Saved to file");
+            String filename = name_txt.getText();
+            String filepath = path_txt.getText();
+            
+            if (!"".equals(filename) && filepath !=""){
+                saveToCsv();
+            }
+            else {
+                fileChooser();
+                saveToCsv();
+            }
+            
         }
-        catch(HeadlessException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Select file first");
         }
-    }//GEN-LAST:event_exportToCsvActionPerformed
+    }//GEN-LAST:event_saveToCsv_btnActionPerformed
 
-    private void ViewEntriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewEntriesActionPerformed
+    private void import_db_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_import_db_btnActionPerformed
         try {
-            displayData();
+            displayDbData();
         }  
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-    }//GEN-LAST:event_ViewEntriesActionPerformed
+    }//GEN-LAST:event_import_db_btnActionPerformed
 
-    private void LoadFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadFromDBActionPerformed
+    private void LoadInGis_DB_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadInGis_DB_btnActionPerformed
         try {
             // load content from the DB and store it in the Content object cDB
             cDB = db.loadContent();
@@ -484,37 +544,46 @@ public class DB_connection extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-    }//GEN-LAST:event_LoadFromDBActionPerformed
+    }//GEN-LAST:event_LoadInGis_DB_btnActionPerformed
 
     private void open_csv_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_open_csv_btnActionPerformed
-        // TODO add your handling code here:
+        // 
         try {
-            JFileChooser chooser = new JFileChooser();
-            chooser .showOpenDialog(null);
-            File f = chooser.getSelectedFile();
-            String filepath = f.getAbsolutePath();
-            path_txt.setText(filepath);
-            String filename = f.getName();
-            name_txt.setText(filename);
+            fileChooser();
         } 
-        catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_open_csv_btnActionPerformed
 
-    // called when view file entries is pressed
-    public void displayData() throws Exception {
+    private void import_csv_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_import_csv_btnActionPerformed
+        // displays the contents of the chosen CSV file into the JTable
+    }//GEN-LAST:event_import_csv_btnActionPerformed
+
+    private void clear_viewer_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_viewer_btnActionPerformed
+        // clears the file_viewer
+        ((DefaultTableModel)file_viewer.getModel()).setNumRows(0);
+    }//GEN-LAST:event_clear_viewer_btnActionPerformed
+
+    private void table_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table_txtActionPerformed
+        // TODO add your handling code here:
+        table_txt.setEditable(false);
+    }//GEN-LAST:event_table_txtActionPerformed
+
+    // called when import from Import from Database botton is pressed
+    //this methods displays the contents of a database table into the JTable
+    public void displayDbData() throws SQLException {
             try {
+                String table = table_txt.getText();
                 Connection con = getConnection();
                 java.sql.ResultSet resultSet;
                 PreparedStatement display;
                
-                display = con.prepareStatement("SELECT * FROM shapes");
+                display = con.prepareStatement("SELECT * FROM " +table);
                 
                 resultSet = display.executeQuery();
-                while (resultSet.next()){
-                    file_viewer.setModel(DbUtils.resultSetToTableModel(resultSet));
-                }
+
+                file_viewer.setModel(DbUtils.resultSetToTableModel(resultSet));
                 
                 resultSet.close();
                 display.close();
@@ -523,6 +592,12 @@ public class DB_connection extends javax.swing.JFrame {
             catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
+    }
+    
+    // called when Import from CSV botton is pressed
+    //this methods displays the contents of a CSV file into the JTable
+    public void displayCsvData() throws Exception {
+        
     }
     
     // called when connect button is pressed
@@ -540,7 +615,7 @@ public class DB_connection extends javax.swing.JFrame {
         return db.dbConnect();
     }  
     
-    //creates a table automatically if none exists
+    //this methods creates a table if none exists
     public void createTable() throws Exception {
         Connection con = getConnection();
         PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS shapes (gid int NOT NULL AUTO_INCREMENT, "
@@ -549,12 +624,50 @@ public class DB_connection extends javax.swing.JFrame {
                 + "PRIMARY KEY(gid))");
         create.executeUpdate();
     }
-    
+   /* 
     public void deleteEntries() throws Exception {
         Connection con = getConnection();
-        PreparedStatement delete = con.prepareStatement("DELETE FROM shapes WHERE id = 0"); 
+        PreparedStatement delete = con.prepareStatement("DELETE FROM shapes WHERE id = ?"); 
         delete.executeUpdate();
     }
+*/
+    public void fileChooser() throws Exception {
+            JFileChooser chooser = new JFileChooser();
+            int fc = chooser.showOpenDialog(null);
+            while(fc ==JFileChooser.APPROVE_OPTION && !chooser.getSelectedFile().getName().endsWith(".csv")){
+                      JOptionPane.showMessageDialog(null, "The file "+ chooser.getSelectedFile() + 
+                              " is not a csv file.","Open Error", JOptionPane.ERROR_MESSAGE);
+            fc = chooser.showOpenDialog(this);
+            }
+            
+            if (fc ==JFileChooser.APPROVE_OPTION) {
+                File f = chooser.getSelectedFile();
+                String filepath = f.getAbsolutePath();
+                path_txt.setText(filepath);
+                String filename = f.getName();
+                name_txt.setText(filename);
+            }
+            
+            else {
+                JOptionPane.showMessageDialog(null, "No Selection");
+            }
+    }
+    
+    public void saveToCsv() throws Exception {
+        String filepath  = path_txt.getText();
+        String filename = name_txt.getText();
+        createfile g = new createfile();
+        g.openFile();
+        g.addRecords(file_viewer, filepath);
+        g.closeFile();
+        JOptionPane.showMessageDialog(null,"Saved to file: " +filename);
+    }
+    
+    public void deleteAllEntries() throws Exception {
+        Connection con = getConnection();
+        PreparedStatement deleteAll = con.prepareStatement("TRUNCATE shapes"); 
+        deleteAll.executeUpdate();
+}
       
     public class createfile {
        private Formatter file;
@@ -570,8 +683,6 @@ public class DB_connection extends javax.swing.JFrame {
         }
         
         public boolean addRecords(JTable table, String path) {
-        //file.format("%s%s%s", "gid ", "name ", "geom ");
-        
             try {
                 TableModel model = table.getModel();
                 FileWriter csv = new FileWriter(new File(path));
@@ -608,15 +719,17 @@ public class DB_connection extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Connect;
     private javax.swing.JTextField DBMSName;
-    private javax.swing.JButton LoadFromDB;
-    private javax.swing.JButton ViewEntries;
+    private javax.swing.JButton LoadInGis_DB_btn;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton clear_viewer_btn;
     private javax.swing.JLabel connected_label;
     private javax.swing.JTextField dbname_textfield;
-    private javax.swing.JButton exportToCsv;
     private javax.swing.JTable file_viewer;
     private javax.swing.JTextField host_textfield;
+    private javax.swing.JButton import_csv_btn;
+    private javax.swing.JButton import_db_btn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -631,6 +744,7 @@ public class DB_connection extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
     private java.awt.Label label1;
     private java.awt.Label label2;
@@ -639,7 +753,9 @@ public class DB_connection extends javax.swing.JFrame {
     private javax.swing.JPasswordField password_textfield;
     private javax.swing.JTextField path_txt;
     private javax.swing.JTextField port_textfield;
-    private javax.swing.JButton saveToDb;
+    private javax.swing.JButton saveToCsv_btn;
+    private javax.swing.JButton saveToDb_btn;
+    private javax.swing.JTextField table_txt;
     private javax.swing.JTextField user_textfield;
     // End of variables declaration//GEN-END:variables
 }
