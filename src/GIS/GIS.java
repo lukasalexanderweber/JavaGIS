@@ -11,6 +11,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -166,7 +168,6 @@ public class GIS extends JFrame implements ActionListener  {
                             Polyline.addPoint(Point);
                             // add GISPolyline to content
                             c.addPolyline(Polyline);
-                            p.repaint();
                             p.updateContent(c);
                             p.repaint();
                             System.out.println(String.valueOf(Math.round(mouseX))+" "+
@@ -236,7 +237,7 @@ public class GIS extends JFrame implements ActionListener  {
                         break;  
                         
                     case "selectFeatures":
-                        // if no Polygon draw has started yet
+                        // if no Rectangle draw has started yet
                         if (drawSelectionRectangleStarted == false){
                             // remove already existing rectangle
                             p.setSelectionRectangle(null);
@@ -385,16 +386,26 @@ public class GIS extends JFrame implements ActionListener  {
     // -----------------
     public void setLayout(){   
         //icon of button image
-        ImageIcon zoomI = new ImageIcon("..\\JavaGIS\\src\\seicon\\zoomin.png");
-        ImageIcon zoomO = new ImageIcon("..\\JavaGIS\\src\\seicon\\zoomout.png");
-        ImageIcon PenPo = new ImageIcon("..\\JavaGIS\\src\\seicon\\point.png");
-        ImageIcon PenPl = new ImageIcon("..\\JavaGIS\\src\\seicon\\line.png");
-        ImageIcon PenPy = new ImageIcon("..\\JavaGIS\\src\\seicon\\polygon.png");
-        ImageIcon FuEt = new ImageIcon("..\\JavaGIS\\src\\seicon\\fullext.png");
-        ImageIcon Pan = new ImageIcon("..\\JavaGIS\\src\\seicon\\pan.jpg");
-        ImageIcon OpenF = new ImageIcon("..\\JavaGIS\\src\\seicon\\select.png");
-        ImageIcon DBI = new ImageIcon("..\\JavaGIS\\src\\seicon\\dbc.png");
-        ImageIcon Del = new ImageIcon("..\\JavaGIS\\src\\seicon\\delet.png");
+        URL ImgZoomI = GIS.class.getClassLoader().getResource("seicon/zoomin.png");
+        ImageIcon zoomI = new ImageIcon(ImgZoomI);
+        URL ImgZoomO = GIS.class.getClassLoader().getResource("seicon/zoomout.png");
+        ImageIcon zoomO = new ImageIcon(ImgZoomO);
+        URL ImgPenPo = GIS.class.getClassLoader().getResource("seicon/point.png");
+        ImageIcon PenPo = new ImageIcon(ImgPenPo);
+        URL ImgPenPl = GIS.class.getClassLoader().getResource("seicon/line.png");
+        ImageIcon PenPl = new ImageIcon(ImgPenPl);
+        URL ImgPenPy = GIS.class.getClassLoader().getResource("seicon/polygon.png");
+        ImageIcon PenPy = new ImageIcon(ImgPenPy);
+        URL ImgFuEt = GIS.class.getClassLoader().getResource("seicon/fullext.png");
+        ImageIcon FuEt = new ImageIcon(ImgFuEt);
+        URL ImgPan = GIS.class.getClassLoader().getResource("seicon/pan.jpg");
+        ImageIcon Pan = new ImageIcon(ImgPan);
+        URL ImgOpenF = GIS.class.getClassLoader().getResource("seicon/select.png");
+        ImageIcon OpenF = new ImageIcon(ImgOpenF);
+        URL ImgDBI = GIS.class.getClassLoader().getResource("seicon/dbc.png");
+        ImageIcon DBI = new ImageIcon(ImgDBI);
+        URL ImgDel = GIS.class.getClassLoader().getResource("seicon/delet.png");
+        ImageIcon Del = new ImageIcon(ImgDel);
 
         // Layout declaration
         delete = new JButton("Delete", Del);
@@ -507,9 +518,9 @@ public class GIS extends JFrame implements ActionListener  {
         else if (e.getSource() == PanB){
             p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             PanB.setBackground(Color.GRAY);
-            createPolygon.setBackground(new JButton().getBackground()); //default color
-            createPolyline.setBackground(new JButton().getBackground()); //default color
-            createPoint.setBackground(new JButton().getBackground()); //default color
+            createPolygon.setBackground(Color.WHITE); //default color
+            createPolyline.setBackground(Color.WHITE); //default color
+            createPoint.setBackground(Color.WHITE); //default color
             ActualState = "Pan";
         }
         // zoom out (coodinated will be multiplied with the factor)
@@ -539,15 +550,18 @@ public class GIS extends JFrame implements ActionListener  {
             if (!ActualState.equals("drawPoint")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 createPoint.setBackground(Color.GRAY);
-                createPolyline.setBackground(new JButton().getBackground()); //default color
-                createPolygon.setBackground(new JButton().getBackground()); //default color
-                Select.setBackground(new JButton().getBackground()); //default color
-                PanB.setBackground(new JButton().getBackground()); //default color
+                createPolyline.setBackground(Color.WHITE); //default color
+                createPolygon.setBackground(Color.WHITE); //default color
+                Select.setBackground(Color.WHITE); //default color
+                PanB.setBackground(Color.WHITE); //default color
+                // remove eventual selection rectangle
+                p.setSelectionRectangle(null);
+                p.repaint();
                 ActualState = "drawPoint";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                createPoint.setBackground(new JButton().getBackground()); //default color
+                createPoint.setBackground(Color.WHITE); //default color
                 ActualState = "Pan";
                 PanB.setBackground(Color.GRAY);
             }
@@ -556,15 +570,18 @@ public class GIS extends JFrame implements ActionListener  {
             if (!ActualState.equals("drawPolyline")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 createPolyline.setBackground(Color.GRAY);
-                createPoint.setBackground(new JButton().getBackground()); //default color
-                createPolygon.setBackground(new JButton().getBackground()); //default color
-                Select.setBackground(new JButton().getBackground()); //default color
-                PanB.setBackground(new JButton().getBackground()); //default color
+                createPoint.setBackground(Color.WHITE); //default color
+                createPolygon.setBackground(Color.WHITE); //default color
+                Select.setBackground(Color.WHITE); //default color
+                PanB.setBackground(Color.WHITE); //default color
+                // remove eventual selection rectangle
+                p.setSelectionRectangle(null);
+                p.repaint();
                 ActualState = "drawPolyline";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                createPolyline.setBackground(new JButton().getBackground()); //default color
+                createPolyline.setBackground(Color.WHITE); //default color
                 ActualState = "Pan";
                 PanB.setBackground(Color.GRAY);
             }
@@ -573,15 +590,18 @@ public class GIS extends JFrame implements ActionListener  {
             if (!ActualState.equals("drawPolygon")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 createPolygon.setBackground(Color.GRAY);
-                createPolyline.setBackground(new JButton().getBackground()); //default color
-                createPoint.setBackground(new JButton().getBackground()); //default color
-                PanB.setBackground(new JButton().getBackground()); //default color
-                Select.setBackground(new JButton().getBackground()); //default color
+                createPolyline.setBackground(Color.WHITE); //default color
+                createPoint.setBackground(Color.WHITE); //default color
+                PanB.setBackground(Color.WHITE); //default color
+                Select.setBackground(Color.WHITE); //default color
+                // remove eventual selection rectangle
+                p.setSelectionRectangle(null);
+                p.repaint();
                 ActualState = "drawPolygon";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                createPolygon.setBackground(new JButton().getBackground()); //default color
+                createPolygon.setBackground(Color.WHITE); //default color
                 ActualState = "Pan";
                 PanB.setBackground(Color.GRAY);
             }
@@ -590,18 +610,30 @@ public class GIS extends JFrame implements ActionListener  {
             if (!ActualState.equals("selectFeatures")){
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 Select.setBackground(Color.GRAY);
-                createPolygon.setBackground(new JButton().getBackground()); //default color
-                createPolyline.setBackground(new JButton().getBackground()); //default color
-                createPoint.setBackground(new JButton().getBackground()); //default color
-                PanB.setBackground(new JButton().getBackground()); //default color
+                createPolygon.setBackground(Color.WHITE); //default color
+                createPolyline.setBackground(Color.WHITE); //default color
+                createPoint.setBackground(Color.WHITE); //default color
+                PanB.setBackground(Color.WHITE); //default color
                 ActualState = "selectFeatures";
             }
             else{
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                Select.setBackground(new JButton().getBackground()); //default color
+                Select.setBackground(Color.WHITE); //default color
                 ActualState = "Pan";
+                // remove eventual selection rectangle
+                p.setSelectionRectangle(null);
+                p.repaint();
                 PanB.setBackground(Color.GRAY);
             }
+        }
+        else if(e.getSource() == delete) {
+            c.deleteSelectedGeometries();
+            // to remove the selection geometries
+            c.SelectedPointlist = new ArrayList<>();
+            c.SelectedPolylinelist = new ArrayList<>();
+            c.SelectedPolygonlist = new ArrayList<>();
+            p.updateContent(c);
+            p.repaint();
         }
 
         // maximum zoom out: 3, maximum zoom in: 0.1
