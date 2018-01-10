@@ -98,6 +98,7 @@ public class DB_connection extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 204));
+        setName(""); // NOI18N
 
         file_viewer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,6 +116,7 @@ public class DB_connection extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        file_viewer.setGridColor(new java.awt.Color(255, 204, 204));
         jScrollPane2.setViewportView(file_viewer);
 
         label1.setFont(new java.awt.Font("Elephant", 1, 14)); // NOI18N
