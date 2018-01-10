@@ -112,7 +112,6 @@ public class DB_connection extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 204));
-        setPreferredSize(new java.awt.Dimension(810, 515));
 
         saveToDb_btn.setText("Save into database");
         saveToDb_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -297,6 +296,7 @@ public class DB_connection extends javax.swing.JFrame {
         });
 
         table_txt.setText("shapes");
+        table_txt.setEnabled(false);
         table_txt.setPreferredSize(new java.awt.Dimension(109, 26));
         table_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
