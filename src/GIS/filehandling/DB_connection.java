@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GIS.database;
+package GIS.filehandling;
 
 import static GIS.GIS.gis;
 import GIS.drawing.Content;
+import GIS.geometry.GISPoint;
+import GIS.geometry.GISPolygon;
+import GIS.geometry.GISPolyline;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.io.File;
@@ -583,6 +586,7 @@ public class DB_connection extends javax.swing.JFrame {
         // 
         try {
             fileChooser();
+            displayCsvData();
         } 
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -626,7 +630,12 @@ public class DB_connection extends javax.swing.JFrame {
     // called when Import from CSV botton is pressed
     //this methods displays the contents of a CSV file into the JTable
     public void displayCsvData() throws Exception {
-        
+        String filepath  = path_txt.getText();
+        CSV csv = new CSV(filepath);               
+        // load content from the DB and store it in the Content object cDB
+        cDB = csv.loadContent();
+        // and overwrite the actual content of the GIS 
+        gis.setContent(cDB);
     }
     
     // called when connect button is pressed
@@ -696,7 +705,7 @@ public class DB_connection extends javax.swing.JFrame {
         Connection con = getConnection();
         PreparedStatement deleteAll = con.prepareStatement("TRUNCATE shapes"); 
         deleteAll.executeUpdate();
-}
+    }
       
     public class createfile {
        private Formatter file;
@@ -716,18 +725,44 @@ public class DB_connection extends javax.swing.JFrame {
                 TableModel model = table.getModel();
                 FileWriter csv = new FileWriter(new File(path));
 
-                for (int i = 0; i < model.getColumnCount(); i++) {
-                    csv.write(model.getColumnName(i) + ",");
+//                for (int i = 0; i < model.getColumnCount(); i++) {
+//                    csv.write(model.getColumnName(i) + ",");
+//                }
+//
+//                csv.write("\n");
+//
+//                for (int i = 0; i < model.getRowCount(); i++) {
+//                    for (int j = 0; j < model.getColumnCount(); j++) {
+//                        csv.write(model.getValueAt(i, j).toString() + ",");
+//                    }
+//                    csv.write("\n");
+//                }
+
+                // header:
+                csv.write("type;geom\n");
+
+                String type;
+                String geom;
+                    // insert all Points into the CSV
+                for (GISPoint p : c.pointlist) {
+                    type = p.getType();
+                    geom = p.getGeometryAsText();
+                    csv.write(type + ";" + geom + "\n");
                 }
 
-                csv.write("\n");
+                // insert all Polylines into the CSV
+                for (GISPolyline p : c.polylinelist) {
+                    type = p.getType();
+                    geom = p.getGeometryAsText();
+                    csv.write(type + ";" + geom + "\n");
+                }  
 
-                for (int i = 0; i < model.getRowCount(); i++) {
-                    for (int j = 0; j < model.getColumnCount(); j++) {
-                        csv.write(model.getValueAt(i, j).toString() + ",");
-                    }
-                    csv.write("\n");
-                }
+                // insert all Polygons into the CSV
+                for (GISPolygon p : c.polygonlist) {
+                    type = p.getType();
+                    geom = p.getGeometryAsText();
+                    csv.write(type + ";" + geom + "\n");
+                }  
                 
                 csv.close();
                 return true;

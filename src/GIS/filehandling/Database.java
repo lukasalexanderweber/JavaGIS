@@ -1,4 +1,4 @@
-package GIS.database;
+package GIS.filehandling;
 
 import GIS.drawing.*;
 import GIS.geometry.GISPolygon;

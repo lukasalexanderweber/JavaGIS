@@ -1,9 +1,8 @@
 package GIS;
 
+import GIS.filehandling.DB_connection;
 import GIS.geometry.*;
 import GIS.drawing.*;
-import GIS.database.*;
-import GIS.csv.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -117,6 +116,7 @@ public class GIS extends JFrame implements ActionListener  {
         p.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent me){
+                // !!!! GET AND DISPLAY MOUSE COORIDATES WITH THE CORRECT TRANSFORMATION!!!
                 mouseX = (me.getX());
                 mouseY = (me.getY());
 		// create a 2D Point object from the coordinates
@@ -134,6 +134,70 @@ public class GIS extends JFrame implements ActionListener  {
                 // display x,y in the JLabels x,y
                 x.setText(String.valueOf(Math.round(mouseX)));
                 y.setText(String.valueOf(Math.round(mouseY)));
+                
+                
+                
+                // !!!! LIVE DISPLAY OF POLYGON, POLYLINE OR RECTANGLE IF DRAW HAS BEEN STARTED!!!
+                Point = new GISPoint();
+                Point.createPoint(mouseX, mouseY);
+                
+                if (drawPolylineStarted == true){
+                    // remove last live point of polyline
+                    if (Polyline.pointlist.size() >= 2){
+                        Polyline.pointlist.remove(Polyline.pointlist.size()-1);                        
+                    }
+                    // and add actual live point
+                    Polyline.addPoint(Point);
+                    // refresh the draw
+                    c.refreshPolyline(Polyline);
+                    p.updateContent(c);
+                    p.repaint();
+                }
+                if (drawPolygonStarted == true){
+                    // remove last live point of polyline, do not remove very first point
+                    if (Polygon.pointlist.size() >= 2){
+                        Polygon.pointlist.remove(Polygon.pointlist.size()-1);                        
+                    }
+                    // and add actual live point
+                    Polygon.addPoint(Point);
+                    // refresh the draw
+                    c.refreshPolygon(Polygon);
+                    p.updateContent(c);
+                    p.repaint();
+                }
+                if(drawSelectionRectangleStarted == true){
+                    newMouseX = Point.getX();
+                    newMouseY = Point.getY();
+
+                    // width and height for rectangle drawing
+                    double width = Math.abs(oldMouseX-newMouseX);
+                    double height = Math.abs(oldMouseY-newMouseY);
+                    double leftpoint;
+                    // the smaller X coordinate will be the X starting point of the rectangle
+                    if (newMouseX > oldMouseX){
+                        leftpoint = oldMouseX;
+                    }
+                    else{
+                        leftpoint = newMouseX;
+                    }
+                    double bottompoint;
+                    // the smaller Y coordinate will be the Y starting point of the rectangle
+                    if (newMouseY > oldMouseY){
+                        bottompoint = oldMouseY;
+                    }
+                    else{
+                        bottompoint = newMouseY;
+                    }
+
+                    // create a rectangle with the size defined above
+                    Rectangle2D selectR;
+                    selectR = new Rectangle2D.Double();
+                    selectR.setRect(leftpoint, bottompoint, width, height);
+
+                    // and paint it
+                    p.setSelectionRectangle(selectR);
+                    p.repaint();
+                }
             }
         });
 
@@ -239,8 +303,12 @@ public class GIS extends JFrame implements ActionListener  {
                     case "selectFeatures":
                         // if no Rectangle draw has started yet
                         if (drawSelectionRectangleStarted == false){
-                            // remove already existing rectangle
+                            // remove eventual selection rectangle and selected geometries
                             p.setSelectionRectangle(null);
+                            c.SelectedPointlist = new ArrayList<>();
+                            c.SelectedPolylinelist = new ArrayList<>();
+                            c.SelectedPolygonlist = new ArrayList<>();
+                            p.updateContent(c);
                             p.repaint();
                             
                             // save first click coordinates
@@ -554,8 +622,12 @@ public class GIS extends JFrame implements ActionListener  {
                 createPolygon.setBackground(Color.WHITE); //default color
                 Select.setBackground(Color.WHITE); //default color
                 PanB.setBackground(Color.WHITE); //default color
-                // remove eventual selection rectangle
+                // remove eventual selection rectangle and selected geometries
                 p.setSelectionRectangle(null);
+                c.SelectedPointlist = new ArrayList<>();
+                c.SelectedPolylinelist = new ArrayList<>();
+                c.SelectedPolygonlist = new ArrayList<>();
+                p.updateContent(c);
                 p.repaint();
                 ActualState = "drawPoint";
             }
@@ -574,8 +646,12 @@ public class GIS extends JFrame implements ActionListener  {
                 createPolygon.setBackground(Color.WHITE); //default color
                 Select.setBackground(Color.WHITE); //default color
                 PanB.setBackground(Color.WHITE); //default color
-                // remove eventual selection rectangle
+                // remove eventual selection rectangle and selected geometries
                 p.setSelectionRectangle(null);
+                c.SelectedPointlist = new ArrayList<>();
+                c.SelectedPolylinelist = new ArrayList<>();
+                c.SelectedPolygonlist = new ArrayList<>();
+                p.updateContent(c);
                 p.repaint();
                 ActualState = "drawPolyline";
             }
@@ -594,8 +670,12 @@ public class GIS extends JFrame implements ActionListener  {
                 createPoint.setBackground(Color.WHITE); //default color
                 PanB.setBackground(Color.WHITE); //default color
                 Select.setBackground(Color.WHITE); //default color
-                // remove eventual selection rectangle
+                // remove eventual selection rectangle and selected geometries
                 p.setSelectionRectangle(null);
+                c.SelectedPointlist = new ArrayList<>();
+                c.SelectedPolylinelist = new ArrayList<>();
+                c.SelectedPolygonlist = new ArrayList<>();
+                p.updateContent(c);
                 p.repaint();
                 ActualState = "drawPolygon";
             }
@@ -620,8 +700,12 @@ public class GIS extends JFrame implements ActionListener  {
                 p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 Select.setBackground(Color.WHITE); //default color
                 ActualState = "Pan";
-                // remove eventual selection rectangle
+                // remove eventual selection rectangle and selected geometries
                 p.setSelectionRectangle(null);
+                c.SelectedPointlist = new ArrayList<>();
+                c.SelectedPolylinelist = new ArrayList<>();
+                c.SelectedPolygonlist = new ArrayList<>();
+                p.updateContent(c);
                 p.repaint();
                 PanB.setBackground(Color.GRAY);
             }

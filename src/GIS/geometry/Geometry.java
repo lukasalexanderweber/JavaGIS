@@ -76,13 +76,12 @@ public class Geometry {
     int maxid;
     
     if (ids.isEmpty()){
-      maxid = 1;
+      maxid = 0;
     }
     else{
         maxid = Collections.max(ids);
     }   
     
-    System.out.println(maxid+1);
     return maxid + 1;
   }
   
