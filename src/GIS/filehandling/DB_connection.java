@@ -725,19 +725,6 @@ public class DB_connection extends javax.swing.JFrame {
                 TableModel model = table.getModel();
                 FileWriter csv = new FileWriter(new File(path));
 
-//                for (int i = 0; i < model.getColumnCount(); i++) {
-//                    csv.write(model.getColumnName(i) + ",");
-//                }
-//
-//                csv.write("\n");
-//
-//                for (int i = 0; i < model.getRowCount(); i++) {
-//                    for (int j = 0; j < model.getColumnCount(); j++) {
-//                        csv.write(model.getValueAt(i, j).toString() + ",");
-//                    }
-//                    csv.write("\n");
-//                }
-
                 // header:
                 csv.write("type;geom\n");
 
