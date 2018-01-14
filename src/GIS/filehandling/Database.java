@@ -63,7 +63,7 @@ public class Database {
   
   /** 
    *  creates a db connection using the connection parameters
-     * @return Connection object when sucessfull, SQLExeption if not
+     * @return Connection object when successful, SQLExeption if not
      * @throws java.sql.SQLException 
    */
   public Connection dbConnect() throws SQLException {
@@ -71,22 +71,13 @@ public class Database {
     String connection = "jdbc:"+ DBMS +"://" + dbHost + ":" + dbPort + "/" + dbName + "?autoReconnect=true&useSSL=false";    
     Connection dbmsconn = DriverManager.getConnection(connection, dbUser, dbPassword);
     return dbmsconn;
-  }
-
-
-// maybe create a usable table automaticly if user wants it??
-//  CREATE TABLE `data`.`shapes` (
-//  `gid` INT NOT NULL AUTO_INCREMENT,
-//  `type` VARCHAR(10) NULL,
-//  `geom` LONGTEXT NULL,
-//  PRIMARY KEY (`gid`));
-  
+  }  
   
   /** 
    *  get attribute id and type from the Point Object. Call the writeGeometryAsText method to get the geometry in something that you could call wellknowntext.
    *  Insert id, type and geometry in the respective DB columns
    *  
-   *  return true when processed sucessfull
+   *  return true when processed successful
      * @param c Content with the actually drawn geometries
      * @throws java.sql.SQLException
    */
