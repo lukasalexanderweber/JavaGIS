@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GIS.filehandling;
 
 import GIS.drawing.Content;
@@ -23,6 +19,12 @@ public class CSV {
         this.path = pathtocsv;
     }
     
+    /**
+     * The loadContent object
+     * @return it returns an object of type Content, c;
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public Content loadContent() throws FileNotFoundException, IOException{
         
         Content c = new Content();
