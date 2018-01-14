@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GIS.filehandling;
 
 import static GIS.GIS.gis;
@@ -515,12 +511,15 @@ public class DB_connection extends javax.swing.JFrame {
 
     private void ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectActionPerformed
          try {
+             // a connection to the database is established
             getConnection();
+            // if successful a status message is displayed
             connected_label.setVisible(true);
             connected_label.setText("connected");
             connected_label.setForeground(Color.green);
 
         } catch (SQLException ex) {
+            // if there is an error, a red status message is displayed
             System.out.println(ex.getSQLState());
             connected_label.setVisible(true);
             connected_label.setText("connection error");
@@ -532,8 +531,11 @@ public class DB_connection extends javax.swing.JFrame {
         try {
             String tableName = table_txt.getText();
             String dbname = dbname_textfield.getText();
+            // a table is created if none exists
             createTable();
+            // the existing values are deleted first
             deleteAllEntries();
+            // the content of the drawing panel are saved into the database table
             db.insertContent(c);
             JOptionPane.showMessageDialog(null, "Saved to \ndatabase: " +dbname +" \ntable: " +tableName);
         } 
@@ -547,9 +549,13 @@ public class DB_connection extends javax.swing.JFrame {
             String filename = name_txt.getText();
             String filepath = path_txt.getText();
             
+            // if a file has already been selected, on button press, the saveToCsv() method is implemented;
             if (!"".equals(filename) && filepath !=""){
                 saveToCsv();
             }
+            
+            // if a file has not been preselected, first the fileChooser() method is called, 
+            // then the saveToCsv() method is implemented;
             else {
                 fileChooser();
                 saveToCsv();
@@ -563,6 +569,7 @@ public class DB_connection extends javax.swing.JFrame {
 
     private void import_db_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_import_db_btnActionPerformed
         try {
+            // displays the content of the database table on the JTable
             displayDbData();
         }  
         catch(Exception e){
@@ -583,7 +590,7 @@ public class DB_connection extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadInGis_DB_btnActionPerformed
 
     private void open_csv_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_open_csv_btnActionPerformed
-        // 
+        // opens a file chooser, then displays the data on the JTable
         try {
             fileChooser();
             displayCsvData();
@@ -599,12 +606,16 @@ public class DB_connection extends javax.swing.JFrame {
     }//GEN-LAST:event_clear_viewer_btnActionPerformed
 
     private void table_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_table_txtActionPerformed
-        // TODO add your handling code here:
+        // sets the content of the text_box to "read-only"
         table_txt.setEditable(false);
     }//GEN-LAST:event_table_txtActionPerformed
 
-    // called when import from Import from Database botton is pressed
-    //this methods displays the contents of a database table into the JTable
+    /**
+     * called when import from Import from Database button is pressed
+     * this methods displays the contents of a database table into the JTable
+     * @throws SQLException
+     */
+    
     public void displayDbData() throws SQLException {
             try {
                 String table = table_txt.getText();
@@ -626,9 +637,12 @@ public class DB_connection extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
     }
-    
-    // called when Import from CSV botton is pressed
-    //this methods displays the contents of a CSV file into the JTable
+
+    /**
+     * called when Import from CSV botton is pressed
+     * this methods displays the contents of a CSV file into the JTable
+     * @throws Exception
+     */
     public void displayCsvData() throws Exception {
         String filepath  = path_txt.getText();
         CSV csv = new CSV(filepath);               
@@ -637,10 +651,12 @@ public class DB_connection extends javax.swing.JFrame {
         // and overwrite the actual content of the GIS 
         gis.setContent(cDB);
     }
-    
-    // called when connect button is pressed
-    // TO-DO: check if Table name exists,
-    // if not, ask the user if table should be generated automaticly
+
+    /**
+     * This method is called when connect button is pressed
+     * @return true when the method is successful and false when it is not successful
+     * @throws SQLException
+     */
     public Connection getConnection () throws SQLException {
         db = new Database();
         db.dbHost = host_textfield.getText();
@@ -652,8 +668,13 @@ public class DB_connection extends javax.swing.JFrame {
         
         return db.dbConnect();
     }  
-    
-    //this methods creates a table if none exists
+
+    /**
+     * This methods creates a table in the database if none exists
+     * The table name is "shapes" and it has 3 columns: "gid", "type" and "geom";
+     * The columns are compulsory attributes for each drawn shape. 
+     * @throws Exception
+     */
     public void createTable() throws Exception {
         Connection con = getConnection();
         PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS shapes (gid int NOT NULL AUTO_INCREMENT, "
@@ -662,13 +683,16 @@ public class DB_connection extends javax.swing.JFrame {
                 + "PRIMARY KEY(gid))");
         create.executeUpdate();
     }
-   /* 
-    public void deleteEntries() throws Exception {
-        Connection con = getConnection();
-        PreparedStatement delete = con.prepareStatement("DELETE FROM shapes WHERE id = ?"); 
-        delete.executeUpdate();
-    }
-*/
+
+    /**
+     * This method opens a filechooser dialog box;
+     * The file chooser validates that the selected file is a .csv, 
+     * if true a file name and file path are displayed in the appropriate text-boxes;
+     * if false an error message is displayed.
+     * an error message is also displayed if there is no file selected.
+     * @throws Exception
+     */
+
     public void fileChooser() throws Exception {
             JFileChooser chooser = new JFileChooser();
             int fc = chooser.showOpenDialog(null);
@@ -691,6 +715,11 @@ public class DB_connection extends javax.swing.JFrame {
             }
     }
     
+    /**
+     * This method creates an object of type createfile;
+     * it saves the contents of GIS.drawing.Content into a csv file.
+     * @throws Exception
+     */
     public void saveToCsv() throws Exception {
         String filepath  = path_txt.getText();
         String filename = name_txt.getText();
@@ -701,16 +730,27 @@ public class DB_connection extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null,"Saved to file: " +filename);
     }
     
+    /**
+     * This method deletes all the entries of the database table by sending a prepared statement to the MySQL database;
+     * It creates a connection first.
+     * @throws Exception
+     */
     public void deleteAllEntries() throws Exception {
         Connection con = getConnection();
         PreparedStatement deleteAll = con.prepareStatement("TRUNCATE shapes"); 
         deleteAll.executeUpdate();
     }
       
+    /**
+     * Create a file object
+     */
     public class createfile {
        private Formatter file;
 
-       public void openFile() {
+        /**
+         * This methods opens the csv file in the specified file path.
+         */
+        public void openFile() {
            try {
                String filepath = path_txt.getText();
                file = new Formatter(filepath);
@@ -720,6 +760,12 @@ public class DB_connection extends javax.swing.JFrame {
            }
         }
         
+        /**
+         * This method adds the individual lines of the Jtable into a csv file.
+         * @param table
+         * @param path
+         * @return true if the process is successful and false if there is an error
+         */
         public boolean addRecords(JTable table, String path) {
             try {
                 TableModel model = table.getModel();
@@ -730,7 +776,7 @@ public class DB_connection extends javax.swing.JFrame {
 
                 String type;
                 String geom;
-                    // insert all Points into the CSV
+                // insert all Points into the CSV
                 for (GISPoint p : c.pointlist) {
                     type = p.getType();
                     geom = p.getGeometryAsText();
@@ -760,6 +806,9 @@ public class DB_connection extends javax.swing.JFrame {
         return false;
         }
     
+        /**
+         * This method closes the formatter once all formating is complete.
+         */
         public void closeFile() {
             file.close();
         }
