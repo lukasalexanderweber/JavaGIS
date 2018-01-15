@@ -733,7 +733,7 @@ public class GIS extends JFrame implements ActionListener  {
         gis = new GIS(); 
         gis.setLayout();
         gis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
-        gis.setTitle("G.I. J Gmbh");
+        gis.setTitle("G.I. Java (HsKA)");
         
         
 //        // just some method testing:
