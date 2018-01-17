@@ -7,7 +7,6 @@ import GIS.geometry.GISPoint;
 import GIS.geometry.GISPolygon;
 import GIS.geometry.GISPolyline;
 import java.awt.Color;
-import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,21 +15,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Formatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
- *
+ * Creates new form (FileHandler), serves as connection between user input and 
+ * the file storage classes Database and CSV
  * @author keneuoe
  */
-public class DB_connection extends javax.swing.JFrame {
+public class FileHandler extends javax.swing.JFrame {
 
     // Database object to store connection information permanently
     Database db;
@@ -40,9 +37,10 @@ public class DB_connection extends javax.swing.JFrame {
     Content cDB;
     
     /**
-     * Creates new form db_connection
+     * Creates new form db_connection, serves as connection between user input and 
+     * the file storage classes Database and CSV
      */
-    public DB_connection() {
+    public FileHandler() {
         // get the content of GIS.java
         this.c = gis.c;
         initComponents();
@@ -532,7 +530,7 @@ public class DB_connection extends javax.swing.JFrame {
             String filepath = path_txt.getText();
             
             // if a file has already been selected, on button press, the saveToCsv() method is implemented;
-            if (!"".equals(filename) && filepath !=""){
+            if (!"".equals(filename)){
                 saveToCsv();
             }
             
@@ -554,7 +552,7 @@ public class DB_connection extends javax.swing.JFrame {
             // displays the content of the database table on the JTable
             displayDbData();
         }  
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_import_db_btnActionPerformed
@@ -613,7 +611,7 @@ public class DB_connection extends javax.swing.JFrame {
     /**
      * called when import from Import from Database button is pressed
      * this methods displays the contents of a database table into the JTable
-     * @throws SQLException
+     * @throws SQLException -
      */
     
     public void displayDbData() throws SQLException {
@@ -641,7 +639,7 @@ public class DB_connection extends javax.swing.JFrame {
     /**
      * called when Import from CSV botton is pressed
      * this methods displays the contents of a CSV file into the JTable
-     * @throws Exception
+     * @throws Exception -
      */
     public void displayCsvData() throws Exception {
         String filepath  = path_txt.getText();
@@ -655,7 +653,7 @@ public class DB_connection extends javax.swing.JFrame {
     /**
      * This method is called when connect button is pressed
      * @return true when the method is successful and false when it is not successful
-     * @throws SQLException
+     * @throws SQLException -
      */
     public Connection getConnection () throws SQLException {
         db = new Database();
@@ -673,7 +671,7 @@ public class DB_connection extends javax.swing.JFrame {
      * This methods creates a table in the database if none exists
      * The table name is "shapes" and it has 3 columns: "gid", "type" and "geom";
      * The columns are compulsory attributes for each drawn shape. 
-     * @throws Exception
+     * @throws Exception -
      */
     public void createTable() throws Exception {
         Connection con = getConnection();
@@ -690,7 +688,7 @@ public class DB_connection extends javax.swing.JFrame {
      * if true a file name and file path are displayed in the appropriate text-boxes;
      * if false an error message is displayed.
      * an error message is also displayed if there is no file selected.
-     * @throws Exception
+     * @throws Exception -
      */
 
     public void fileChooser() throws Exception {
@@ -718,14 +716,14 @@ public class DB_connection extends javax.swing.JFrame {
     /**
      * This method creates an object of type createfile;
      * it saves the contents of GIS.drawing.Content into a csv file.
-     * @throws Exception
+     * @throws Exception -
      */
     public void saveToCsv() throws Exception {
         String filepath  = path_txt.getText();
         String filename = name_txt.getText();
         createfile g = new createfile();
         g.openFile();
-        g.addRecords(file_viewer, filepath);
+        g.addRecords(filepath);
         g.closeFile();
         JOptionPane.showMessageDialog(null,"Saved to file: " +filename);
     }
@@ -733,7 +731,7 @@ public class DB_connection extends javax.swing.JFrame {
     /**
      * This method deletes all the entries of the database table by sending a prepared statement to the MySQL database;
      * It creates a connection first.
-     * @throws Exception
+     * @throws Exception -
      */
     public void deleteAllEntries() throws Exception {
         Connection con = getConnection();
@@ -762,13 +760,11 @@ public class DB_connection extends javax.swing.JFrame {
         
         /**
          * This method adds the individual lines of the Jtable into a csv file.
-         * @param table
-         * @param path
+         * @param path the path selected by the user where the file should be stored
          * @return true if the process is successful and false if there is an error
          */
-        public boolean addRecords(JTable table, String path) {
+        public boolean addRecords(String path) {
             try {
-                TableModel model = table.getModel();
                 FileWriter csv = new FileWriter(new File(path));
 
                 // header:
