@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="813" version="1.1" width="1600" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="126" stroke="#ffffff" stroke-width="1" width="165" x="486" y="14"/>
+<rect fill="none" height="126" stroke="#000000" stroke-width="1" width="165" x="486" y="14"/>
+<text font-family="Dialog" font-size="12" x="542" y="28">
+Geometry</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="165" x="486" y="38"/>
+<text font-family="Dialog" font-size="12" x="490" y="53">
+id : int</text>
+<text font-family="Dialog" font-size="12" x="490" y="70">
+type : String</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="165" x="486" y="80"/>
+<text font-family="Dialog" font-size="12" x="490" y="95">
+getID() : int</text>
+<text font-family="Dialog" font-size="12" x="490" y="112">
+getType() : String</text>
+<text font-family="Dialog" font-size="12" x="490" y="129">
+setUniqueID(c : Content) : int</text>
+<rect fill="#ffffff" height="177" stroke="#ffffff" stroke-width="1" width="306" x="278" y="158"/>
+<rect fill="none" height="177" stroke="#000000" stroke-width="1" width="306" x="278" y="158"/>
+<text font-family="Dialog" font-size="12" x="407" y="172">
+GISPoint</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="306" x="278" y="182"/>
+<text font-family="Dialog" font-size="12" x="282" y="197">
+x : double</text>
+<text font-family="Dialog" font-size="12" x="282" y="214">
+y : double</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="306" x="278" y="224"/>
+<text font-family="Dialog" font-size="12" x="282" y="239">
+getGeometryAsText() : String</text>
+<text font-family="Dialog" font-size="12" x="282" y="256">
+createPoint(x : double,y : double) : boolean</text>
+<text font-family="Dialog" font-size="12" x="282" y="273">
+setGeometryFromText(geometry : String) : boolean</text>
+<text font-family="Dialog" font-size="12" x="282" y="290">
+getX() : double</text>
+<text font-family="Dialog" font-size="12" x="282" y="307">
+getY() : double</text>
+<text font-family="Dialog" font-size="12" x="282" y="324">
+getGeometry() : Ellipse2D</text>
+<polyline fill="none" points="494,158 494,139" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="494,139 501,151 487,151" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="494,139 501,151 487,151" stroke="#000000" stroke-width="1"/>
+<rect fill="#ffffff" height="194" stroke="#ffffff" stroke-width="1" width="287" x="606" y="158"/>
+<rect fill="none" height="194" stroke="#000000" stroke-width="1" width="287" x="606" y="158"/>
+<text font-family="Dialog" font-size="12" x="718" y="172">
+GISPolyline</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="287" x="606" y="182"/>
+<text font-family="Dialog" font-size="12" x="610" y="197">
+pointlist : ArrayList</text>
+<text font-family="Dialog" font-size="12" x="610" y="214">
+length : float</text>
+<text font-family="Dialog" font-size="12" x="610" y="231">
+NoPoints : int</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="287" x="606" y="241"/>
+<text font-family="Dialog" font-size="12" x="610" y="256">
+getGeometryAsText() : String</text>
+<text font-family="Dialog" font-size="12" x="610" y="273">
+addPoint(point : GISPoint) : void</text>
+<text font-family="Dialog" font-size="12" x="610" y="290">
+setGeometryFromText(geometry : String) : boolean</text>
+<text font-family="Dialog" font-size="12" x="610" y="307">
+calculateLength() : void</text>
+<text font-family="Dialog" font-size="12" x="610" y="324">
+getLength() : float</text>
+<text font-family="Dialog" font-size="12" x="610" y="341">
+getGeometry() : Path2D</text>
+<polyline fill="none" points="606,158 606,139" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="606,139 613,151 599,151" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="606,139 613,151 599,151" stroke="#000000" stroke-width="1"/>
+<rect fill="#ffffff" height="184" stroke="#ffffff" stroke-width="1" width="280" x="598" y="382"/>
+<rect fill="none" height="184" stroke="#000000" stroke-width="1" width="280" x="598" y="382"/>
+<text font-family="Dialog" font-size="12" x="706" y="396">
+GISPolygon</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="280" x="598" y="406"/>
+<text font-family="Dialog" font-size="12" x="602" y="421">
+circumference : float</text>
+<text font-family="Dialog" font-size="12" x="602" y="438">
+area : float</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="280" x="598" y="460"/>
+<text font-family="Dialog" font-size="12" x="602" y="475">
+closePolygon() : void</text>
+<text font-family="Dialog" font-size="12" x="602" y="492">
+calculateCircumference() : void</text>
+<text font-family="Dialog" font-size="12" x="602" y="509">
+getCircumference() : float</text>
+<text font-family="Dialog" font-size="12" x="602" y="526">
+calculateArea() : void</text>
+<text font-family="Dialog" font-size="12" x="602" y="543">
+getArea() : float</text>
+<rect fill="#ffffff" height="248" stroke="#ffffff" stroke-width="1" width="224" x="982" y="158"/>
+<rect fill="none" height="248" stroke="#000000" stroke-width="1" width="224" x="982" y="158"/>
+<text font-family="Dialog" font-size="12" x="1067" y="172">
+Database</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="224" x="982" y="182"/>
+<text font-family="Dialog" font-size="12" x="986" y="197">
+dbName : String</text>
+<text font-family="Dialog" font-size="12" x="986" y="214">
+dbPort : int</text>
+<text font-family="Dialog" font-size="12" x="986" y="231">
+dbUser : String</text>
+<text font-family="Dialog" font-size="12" x="986" y="248">
+dbPassword : String</text>
+<text font-family="Dialog" font-size="12" x="986" y="265">
+tableName : String</text>
+<text font-family="Dialog" font-size="12" x="986" y="282">
+DBMS : String</text>
+<text font-family="Dialog" font-size="12" x="986" y="299">
+dbHost : String</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="224" x="982" y="327"/>
+<text font-family="Dialog" font-size="12" x="986" y="342">
+dbConnect() : Connection</text>
+<text font-family="Dialog" font-size="12" x="986" y="359">
+insertContent(c : Content) : void</text>
+<text font-family="Dialog" font-size="12" x="986" y="376">
+loadContent() : Content</text>
+<rect fill="#ffffff" height="144" stroke="#ffffff" stroke-width="1" width="208" x="1230" y="158"/>
+<rect fill="none" height="144" stroke="#000000" stroke-width="1" width="208" x="1230" y="158"/>
+<text font-family="Dialog" font-size="12" x="1314" y="172">
+CSVfile</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="208" x="1230" y="182"/>
+<text font-family="Dialog" font-size="12" x="1234" y="197">
+path : String</text>
+<text font-family="Dialog" font-size="12" x="1234" y="214">
+filename : String</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="208" x="1230" y="241"/>
+<text font-family="Dialog" font-size="12" x="1234" y="256">
+insertContent(c : Content) : void</text>
+<text font-family="Dialog" font-size="12" x="1234" y="273">
+loadContent(c : Content) : void</text>
+<rect fill="#ffffff" height="313" stroke="#ffffff" stroke-width="1" width="264" x="1054" y="486"/>
+<rect fill="none" height="313" stroke="#000000" stroke-width="1" width="264" x="1054" y="486"/>
+<text font-family="Dialog" font-size="12" x="1164" y="500">
+Content</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="264" x="1054" y="510"/>
+<text font-family="Dialog" font-size="12" x="1058" y="525">
+pointlist : ArrayList</text>
+<text font-family="Dialog" font-size="12" x="1058" y="542">
+polylinelist : ArrayList</text>
+<text font-family="Dialog" font-size="12" x="1058" y="559">
+polygonlist : ArrayList</text>
+<text font-family="Dialog" font-size="12" x="1058" y="576">
+SelectedPointlist : ArrayList</text>
+<text font-family="Dialog" font-size="12" x="1058" y="593">
+SelectedPolylinelist : ArrayList</text>
+<text font-family="Dialog" font-size="12" x="1058" y="610">
+SelectedPolygonlist : ArrayList</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="264" x="1054" y="620"/>
+<text font-family="Dialog" font-size="12" x="1058" y="635">
+refreshPolyline(polyline : GISPolyline) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="652">
+refreshPolygon(polygon : GISPolygon) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="669">
+addPoint(point : GISPoint) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="686">
+addPolyline(polyline : GISPolyline) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="703">
+addPolygon(polygon : GISPolygon) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="720">
+removePoint(id : int) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="737">
+removePolyline(id : int) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="754">
+removePolygon(id : int) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="771">
+selectGeometries(rect : Rectangle2D) : void</text>
+<text font-family="Dialog" font-size="12" x="1058" y="788">
+deleteSelectedGeometries() : void</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="486" y2="481"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="476" y2="471"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="466" y2="461"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="456" y2="451"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="446" y2="441"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="436" y2="431"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="426" y2="421"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="416" y2="411"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1142" x2="1142" y1="406" y2="405"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1149" x2="1142" y1="417" y2="405"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1135" x2="1142" y1="417" y2="405"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="486" y2="481"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="476" y2="471"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="466" y2="461"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="456" y2="451"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="446" y2="441"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="436" y2="431"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="426" y2="421"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="416" y2="411"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="406" y2="401"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="396" y2="391"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="386" y2="381"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="376" y2="371"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="366" y2="361"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="356" y2="351"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="346" y2="341"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="336" y2="331"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="326" y2="321"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="316" y2="311"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="306" y2="301"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1237" x2="1230" y1="313" y2="301"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1223" x2="1230" y1="313" y2="301"/>
+<polygon fill="#ffffff" points="14,158 243,158 253,168 253,323 14,323 14,158" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="14,158 243,158 253,168 253,323 14,323 14,158" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="243,158 253,168 243,168 243,158" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="243,158 253,168 243,168 243,158" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="17" y="174">
+A Point Object  will inherit</text>
+<text font-family="Dialog" font-size="12" x="17" y="190">
+id and type from the class Geometry.</text>
+<text font-family="Dialog" font-size="12" x="17" y="206">
+Coordinates can be added with the </text>
+<text font-family="Dialog" font-size="12" x="17" y="222">
+Method "createPoint()", that will add </text>
+<text font-family="Dialog" font-size="12" x="17" y="238">
+values to x and y.</text>
+<text font-family="Dialog" font-size="12" x="17" y="254">
+To write a Feature in a DB or CSV file the </text>
+<text font-family="Dialog" font-size="12" x="17" y="270">
+coordinates can be transformed to the </text>
+<text font-family="Dialog" font-size="12" x="17" y="286">
+right format using "writeAsText()". </text>
+<text font-family="Dialog" font-size="12" x="17" y="302">
+To read it from a DB or CSV use </text>
+<text font-family="Dialog" font-size="12" x="17" y="318">
+"textToPoint()"</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="254" x2="259" y1="278" y2="278"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="264" x2="269" y1="278" y2="278"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="274" x2="278" y1="278" y2="278"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="606" x2="601" y1="300" y2="300"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="596" x2="591" y1="300" y2="300"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="586" x2="583" y1="300" y2="300"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="595" x2="583" y1="293" y2="300"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="595" x2="583" y1="307" y2="300"/>
+<polyline fill="none" points="726,382 726,351" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="726,351 733,363 719,363" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="726,351 733,363 719,363" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="1030,78 1379,78 1389,88 1389,115 1030,115 1030,78" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="1030,78 1379,78 1389,88 1389,115 1030,115 1030,78" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="1379,78 1389,88 1379,88 1379,78" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="1379,78 1389,88 1379,88 1379,78" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="1033" y="94">
+Geometries can either be stored in a DB or a CSV-file.</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="116" y2="121"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="126" y2="131"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="136" y2="141"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="146" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1230" y1="156" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1117" x2="1117" y1="116" y2="121"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1117" x2="1117" y1="126" y2="131"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1117" x2="1117" y1="136" y2="141"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1117" x2="1117" y1="146" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1117" x2="1117" y1="156" y2="158"/>
+<polygon fill="#ffffff" points="1350,494 1575,494 1585,504 1585,675 1350,675 1350,494" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="1350,494 1575,494 1585,504 1585,675 1350,675 1350,494" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="1575,494 1585,504 1575,504 1575,494" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="1575,494 1585,504 1575,504 1575,494" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="1353" y="510">
+Features loaded from a datasource </text>
+<text font-family="Dialog" font-size="12" x="1353" y="526">
+are stored in the contend and can be</text>
+<text font-family="Dialog" font-size="12" x="1353" y="542">
+displayed from the content. The content</text>
+<text font-family="Dialog" font-size="12" x="1353" y="558">
+can be stored in a datasource.</text>
+<text font-family="Dialog" font-size="12" x="1353" y="574">
+Newly drawn Features will be added</text>
+<text font-family="Dialog" font-size="12" x="1353" y="590">
+to the content, deleted Features will be</text>
+<text font-family="Dialog" font-size="12" x="1353" y="606">
+removed from the content.</text>
+<text font-family="Dialog" font-size="12" x="1353" y="622">
+After a selection the selected Features </text>
+<text font-family="Dialog" font-size="12" x="1353" y="638">
+are stored in seperate Arraylists and</text>
+<text font-family="Dialog" font-size="12" x="1353" y="654">
+can be deleted afterwards</text>
+<text font-family="Dialog" font-size="12" x="1353" y="670">
+ </text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1350" x2="1345" y1="494" y2="494"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1340" x2="1335" y1="494" y2="494"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1330" x2="1325" y1="494" y2="494"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1320" x2="1317" y1="494" y2="494"/>
+<polygon fill="#ffffff" points="342,382 557,382 567,392 567,451 342,451 342,382" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="342,382 557,382 567,392 567,451 342,451 342,382" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="557,382 567,392 557,392 557,382" stroke="#ffffff" stroke-width="1"/>
+<polyline fill="none" points="557,382 567,392 557,392 557,382" stroke="#000000" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="345" y="398">
+A Polygon is just a closed Polyline.</text>
+<text font-family="Dialog" font-size="12" x="345" y="414">
+When finished drawing, the first point</text>
+<text font-family="Dialog" font-size="12" x="345" y="430">
+from the Polyline will be added as last </text>
+<text font-family="Dialog" font-size="12" x="345" y="446">
+point to close the Polygon</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="568" x2="573" y1="412" y2="412"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="578" x2="583" y1="412" y2="412"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="588" x2="593" y1="412" y2="412"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="982" x2="977" y1="158" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="972" x2="967" y1="158" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="962" x2="957" y1="157" y2="157"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="952" x2="947" y1="157" y2="156"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="942" x2="937" y1="156" y2="156"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="932" x2="927" y1="156" y2="155"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="922" x2="917" y1="155" y2="155"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="912" x2="907" y1="154" y2="154"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="902" x2="897" y1="154" y2="154"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="892" x2="887" y1="153" y2="153"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="882" x2="877" y1="153" y2="152"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="872" x2="867" y1="152" y2="152"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="862" x2="857" y1="152" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="852" x2="847" y1="151" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="842" x2="837" y1="150" y2="150"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="832" x2="827" y1="150" y2="150"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="822" x2="817" y1="149" y2="149"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="812" x2="807" y1="149" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="802" x2="797" y1="148" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="792" x2="787" y1="148" y2="147"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="782" x2="777" y1="147" y2="147"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="772" x2="767" y1="146" y2="146"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="762" x2="757" y1="146" y2="146"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="752" x2="747" y1="145" y2="145"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="742" x2="737" y1="145" y2="144"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="732" x2="727" y1="144" y2="144"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="722" x2="717" y1="144" y2="143"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="712" x2="707" y1="143" y2="143"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="702" x2="697" y1="142" y2="142"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="692" x2="687" y1="142" y2="142"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="682" x2="677" y1="141" y2="141"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="672" x2="667" y1="141" y2="140"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="662" x2="657" y1="140" y2="140"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="652" x2="650" y1="140" y2="139"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="662" x2="650" y1="132" y2="139"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="661" x2="650" y1="146" y2="139"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1230" x2="1225" y1="158" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1220" x2="1215" y1="158" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1210" x2="1205" y1="158" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1200" x2="1195" y1="158" y2="157"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1190" x2="1185" y1="157" y2="157"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1180" x2="1175" y1="157" y2="157"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1170" x2="1165" y1="157" y2="156"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1160" x2="1155" y1="156" y2="156"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1150" x2="1145" y1="156" y2="156"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1140" x2="1135" y1="156" y2="155"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1130" x2="1125" y1="155" y2="155"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1120" x2="1115" y1="155" y2="155"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1110" x2="1105" y1="155" y2="154"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1100" x2="1095" y1="154" y2="154"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1090" x2="1085" y1="154" y2="154"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1080" x2="1075" y1="154" y2="153"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1070" x2="1065" y1="153" y2="153"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1060" x2="1055" y1="153" y2="153"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1050" x2="1045" y1="153" y2="152"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1040" x2="1035" y1="152" y2="152"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1030" x2="1025" y1="152" y2="152"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1020" x2="1015" y1="152" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1010" x2="1005" y1="151" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="1000" x2="995" y1="151" y2="151"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="990" x2="985" y1="151" y2="150"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="980" x2="975" y1="150" y2="150"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="970" x2="965" y1="150" y2="150"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="960" x2="955" y1="150" y2="149"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="950" x2="945" y1="149" y2="149"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="940" x2="935" y1="149" y2="149"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="930" x2="925" y1="149" y2="149"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="920" x2="915" y1="148" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="910" x2="905" y1="148" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="900" x2="895" y1="148" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="890" x2="885" y1="147" y2="147"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="880" x2="875" y1="147" y2="147"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="870" x2="865" y1="147" y2="147"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="860" x2="855" y1="146" y2="146"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="850" x2="845" y1="146" y2="146"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="840" x2="835" y1="146" y2="146"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="830" x2="825" y1="145" y2="145"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="820" x2="815" y1="145" y2="145"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="810" x2="805" y1="145" y2="145"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="800" x2="795" y1="144" y2="144"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="790" x2="785" y1="144" y2="144"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="780" x2="775" y1="144" y2="144"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="770" x2="765" y1="143" y2="143"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="760" x2="755" y1="143" y2="143"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="750" x2="745" y1="143" y2="143"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="740" x2="735" y1="142" y2="142"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="730" x2="725" y1="142" y2="142"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="720" x2="715" y1="142" y2="142"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="710" x2="705" y1="141" y2="141"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="700" x2="695" y1="141" y2="141"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="690" x2="685" y1="141" y2="141"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="680" x2="675" y1="140" y2="140"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="670" x2="665" y1="140" y2="140"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="660" x2="655" y1="140" y2="140"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="662" x2="650" y1="132" y2="139"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="661" x2="650" y1="146" y2="139"/>
+</svg>
