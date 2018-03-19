@@ -1,6 +1,7 @@
 # JavaGIS
 Study project to implement Point Polyline Polygon drawing in a Java framework using the build in java.awt.Graphics2D Module. Other functionalities are:
   * storing of geometries as WKT in a CSV file or DB. 
+    (this project comes with a MySQL driver, could be extended for other DBMS)
   * reload stored geometries into the GIS.
   * zooming and panning.
   * selecting and deleting drawn geometries.
