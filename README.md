@@ -1,5 +1,9 @@
 # JavaGIS
-Study project to implement Point Polyline Polygon drawing in a Java framework using Graphics 2D and storing Geometries in a CSV file or DB. Stored geometries can be reloaded into the GIS.
+Study project to implement Point Polyline Polygon drawing in a Java framework using the build in java.awt.Graphics2D Module. Other functionalities are:
+  * storing geometries in a CSV file or DB. 
+  * reload stored geometries into the GIS.
+  * zooming and panning.
+  * selecting and deleting drawn geometries.
 
 ![Alt Text](https://github.com/lukasalexanderweber/JavaGIS/blob/master/Demo.gif)
 
