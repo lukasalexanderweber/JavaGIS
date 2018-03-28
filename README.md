@@ -3,7 +3,7 @@ Study project to implement Point Polyline Polygon drawing in a Java framework us
   * storing of geometries as WKT in a CSV file or DB (this project comes with a MySQL driver, could be extended for other DBMS).
   * reload stored geometries into the GIS.
   * zooming and panning.
-  * selecting and deleting drawn geometries.
+  * selecting and deleting drawn geometries (contains query).
 
 ![Alt Text](https://github.com/lukasalexanderweber/JavaGIS/blob/master/Demo.gif)
 
